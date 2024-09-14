@@ -1,0 +1,237 @@
+﻿@model Education
+@{
+    ViewData["Title"] = "Education";
+    Layout = "~/Views/Tutor/_Layout.cshtml";
+}
+
+<div class="tu-boxsm">
+    <div class="tu-boxsmtitle">
+        <h4>Add education</h4>
+        <a href="javascript:void(0)" onclick="$('#education-form').css('display','block')">Add new</a>
+    </div>
+</div>
+@{
+    bool hasErrors = ViewBag.HasErrors ?? false; // Assuming ViewBag.HasErrors contains whether there are validation errors
+}
+<div class="tu-box">
+    <div id="education-form" style="@(hasErrors ? "display:block;" : "display:none;")">
+        <form class="tu-themeform" method="post" asp-controller="Tutor" asp-action="Education">
+            <input type="hidden" asp-for="Id" />
+            <fieldset>
+                <div class="tu-themeform__wrap">
+                    <div class="form-group">
+                        <label class="tu-label">Degree/course title</label>
+                        <div class="tu-placeholderholder">
+                            <input type="text" class="form-control tu-input-field" asp-for="Degree" placeholder="Enter title here">
+                            <div class="tu-placeholder">
+                                <span>Enter title here</span>
+                                <em>*</em>
+                            </div>
+                      
+                        </div>
+                        <span asp-validation-for="Degree" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="tu-label">University/Institute title</label>
+                        <div class="tu-placeholderholder">
+                            <input type="text" class="form-control tu-input-field" asp-for="University" placeholder="Enter title here">
+                            <div class="tu-placeholder">
+                                <span>Enter university here</span>
+                                <em>*</em>
+                            </div>
+                        
+                        </div>
+                        <span asp-validation-for="University" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="tu-label">Loaction</label>
+                        <div class="tu-placeholderholder">
+                            <input type="text" class="form-control tu-input-field" asp-for="Location" placeholder="Enter location">
+                            <div class="tu-placeholder">
+                                <span>Enter location</span>
+                                <em>*</em>
+                            </div>
+                      
+                        </div>
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                    <div class="form-group-wrap">
+                        <div class="form-group pb-0">
+                            <label class="tu-label">Start & end date</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="tu-label">Start Date</label>
+                            <input type="date" class="form-control" placeholder="Enter start date" asp-for="StartDateString">
+                            <span asp-validation-for="StartDateString" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="tu-label">End Date</label>
+                            <input type="date" class="form-control" placeholder="Enter end date" name="EndDateString" id="end-date" >
+                        </div>
+
+                        <div class="form-group pt-0">
+                            <div class="tu-check pt-1">
+                                <input type="checkbox" id="expcheck2" name="expcheck" onchange="onChange(this)">
+                                <label for="expcheck2">This degree/course is currently ongoing</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tu-label">Description</label>
+                        <div class="tu-placeholderholder">
+                            <textarea class="form-control tu-input-field" asp-for="Description" placeholder="Enter description"></textarea>
+                            <div class="tu-placeholder">
+                                <span>Enter description</span>
+                                <em>*</em>
+                            </div>
+                        </div>
+                        @* <div class="tu-input-counter">
+                            <span>Characters left:</span>
+                            <b>500</b>
+                            /
+                            <em> 500</em>
+                        </div> *@
+                    </div>
+                    <div>
+                        <button type="submit" class="tu-primbtn-lg tu-primbtn-orange">Save & update changes</button>
+                        <button type="button" class="btn btn-danger" onclick="$('#education-form').css('display','none')">Cancel</button>
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <br />
+    <div class="accordion tu-accordionedu" id="accordionFlushExampleaa">
+        <div id="tu-edusortable" class="tu-edusortable">
+            @{
+                var education = ViewBag.Education as List<Education>;
+                if (education != null && education.Count > 0)
+                {
+                    @for (var i = 0; i < education.Count(); i++)
+                    {
+                        var item = education[i];
+                        var collapseId = "flush-collapseOne" + i;
+                        var expanded = i == 0 ? "show" : "";
+                        <div class="tu-accordion-item" id="row_@item.Id">
+                            <div class="tu-expwrapper">
+                                <div class="tu-accordionedu">
+                                    <div class="tu-expinfo">
+                                        <div class="tu-accodion-holder">
+                                            <h5 class="collapsed" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">@item.Degree</h5>
+                                            <ul class="tu-branchdetail">
+                                                <li><i class="icon icon-home"></i><span>@item.University</span></li>
+                                                <li><i class="icon icon-map-pin"></i><span>@item.Location</span></li>
+                                                <li><i class="icon icon-calendar"></i><span>@item.StartDate.ToString("MMMM dd") - @(item.EndDate.HasValue ? @item.EndDate.Value.ToString("MMMM dd") : "Present")</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="tu-icon-holder">
+                                            <a href="javascript:void(0)" onclick="deleteEducation('@item.Id')"><i class="icon icon-trash-2 tu-deleteclr"></i></a>
+                                            <a href="javascript:void(0)" onclick="editEducation('@item.Id')"><i class="icon icon-edit-3 tu-editclr"></i></a>
+                                        </div>
+                                        <i class="icon icon-plus" role="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="@collapseId" class="accordion-collapse collapse @expanded" data-bs-parent="#accordionFlushExampleaa">
+                                <div class="tu-edubodymain">
+                                    <div class="tu-accordioneduc">
+                                        <p>@item.Description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"></partial>
+    <script>
+        function editEducation(id) {
+            $.ajax({
+                url: '@Url.Action("EducationById", "Tutor")',
+                type: 'POST',
+                data: { id: id },
+                success: function (response) {
+                    console.log(response);
+                    $('#education-form').css('display', 'block');
+                    $('#Id').val(response.id);
+                    $('#Degree').val(response.degree);
+                    $('#University').val(response.university);
+                    $('#Location').val(response.location);
+                    $('#Description').val(response.description);
+                    $('#StartDateString').val(formatDate(response.startDate));
+                    $('#EndDateString').val(formatDate(response.endDate));
+
+                    $('html, body').animate({ scrollTop: $('#education-form').offset().top }, 'fast');
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error uploading image: " + error);
+
+                }
+
+            });
+        }
+        // function formatDate(dateString) {
+        //     var dateObject = new Date(dateString);
+        //     var formattedDate = dateObject.toISOString().slice(0, 10);
+        //     return formattedDate;
+        // }
+        function formatDate(date) {
+            var dateObject = new Date(date);
+            const year = dateObject.getFullYear();
+            const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObject.getDate()).padStart(2, '0');
+            console.log(`${year}-${month}-${day}`);
+            return `${year}-${month}-${day}`;
+        }
+        function onChange(checkbox) {
+            var endDateInput = document.getElementById("end-date");
+            if (checkbox.checked) {
+                endDateInput.disabled = true;
+                endDateInput.value = true;
+
+            } else {
+                endDateInput.disabled = false;
+            }
+        }
+        function deleteEducation(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this item!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("DeleteEducation", "Tutor")',
+                        data: { id: id },
+                        success: function (response) {
+                            $('#row_' + id).remove();
+                        },
+                        error: function (error) {
+                            console.log(JSON.stringify(error));
+                            // Handle the error
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

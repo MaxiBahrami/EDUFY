@@ -1,0 +1,201 @@
+﻿@model IEnumerable<Media>
+@{
+    ViewData["Title"] = "Media";
+    Layout = "~/Views/Tutor/_Layout.cshtml";
+}
+
+
+<div class="tu-boxwrapper">
+    <div class="tu-boxarea">
+        <div class="tu-boxsm">
+            <div class="tu-boxsmtitle">
+                <h4>Media gallery</h4>
+                @* <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#popup-3">Add/Edit</a> *@
+                <a href="javascript:void(0)" onclick="$('#media-form').css('display','block')">Add/Edit</a>
+            </div>
+        </div>
+
+        <div class="tu-box" >
+            <form class="tu-themeform"  id="media-form" style="display:none">
+                <fieldset>
+                    <div class="tu-themeform__wrap">
+                        <div class="form-group">
+                            <label class="tu-label">Upload gallery</label>
+                            <div class="tu-uploadphoto">
+                                <i class="icon icon-grid"></i>
+                                <h5>Drag or <input type="file" multiple="" id="file3" onchange="handleFileUploadChange(this)" accept="image/*"><label for="file3">click here</label> to upload photo</h5>
+                                <p>You can upload media files in PNG and JPG formats only. Each file must be within 5MB and have dimensions of 1200px width and 1200px height.</p>
+                                <svg><rect width="100%" height="100%"></rect></svg>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="tu-label">Upload via video URL</label>
+                            <div class="tu-placeholderholder">
+                                <div class="tu-appendbtn">
+                                    <input type="url" class="form-control tu-input-field" id="url" placeholder="add youtube or any other video url">
+                                    <div class="tu-placeholder">
+                                        <span>Add youtube, vimeo or any other valid video URL</span>
+                                        <em>*</em>
+                                    </div>
+                                    <a href="javascript:void(0);" class="tu-primbtn-sm" onclick="saveVideo()">Add to gallery</a>
+                                </div>
+                            </div>
+                        </div>
+                   
+                        <div class="form-group mb-3">
+                            <ul id="st_sortableh" class="tu-thumbnails" >
+                              @foreach (var media in Model)
+                                {
+                                    
+                                 
+                                   if (media.Type=="2")
+                                    {
+                                        <li>
+                                            <div class="tu-thumbnails_content">
+                                                <figure>
+                                                    <img src="/images/popup/thumnails/img-03.jpg" alt="image">
+                                                </figure>
+                                                <i class="fas fa-play"></i>
+                                                <div class="tu-thumbnails_action" onclick="deletePicture('@media.Id')">
+                                                    <span><i class="icon icon-trash-2" ></i></span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <div class="tu-thumbnails_content">
+                                                <figure>
+                                                    <img src="/@media.Url" alt="image"  >
+                                                </figure>
+                                                <div class="tu-thumbnails_action" onclick="deletePicture('@media.Id')">
+                                                    <span><i class="icon icon-trash-2"></i></span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+
+                               
+                            </ul>
+
+                        </div>
+                       
+                    </div>
+                </fieldset>
+            </form>
+            <div class="tu-slider-holder">
+                <div id="tu_splide" class="tu-sync splide">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            @foreach (var media in Model)
+                            {
+                               
+                                if (media.Type == "2")
+                                {
+                                    <li class="splide__slide">
+                                        <figure class="tu-sync__content">
+                                            <a class="tu-themegallery" data-vbtype="video" data-gall="gall" href="@media.Url" data-autoplay="true">
+                                                <img src="/images/tutordetail/slider/img-03.jpg" alt="Image Description">
+                                                <span class="tu-servicesvideo"></span>
+                                            </a>
+                                        </figure>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="splide__slide">
+                                        <figure class="tu-sync__content">
+                                            <a class="tu-themegallery" data-gall="gall" href="/@media.Url">
+                                                <img src="/@media.Url" alt="Image Description"  >
+                                            </a>
+                                        </figure>
+                                    </li>
+                                }
+                            }
+                         
+                          @*   <li class="splide__slide">
+                                <figure class="tu-sync__content">
+                                    <a class="tu-themegallery" data-gall="gall" href="images/tutordetail/slider/img-03.jpg">
+                                        <img src="/images/tutordetail/slider/img-03.jpg" alt="Image Description">
+                                    </a>
+                                </figure>
+                            </li>
+                            <li class="splide__slide">
+                                <figure class="tu-sync__content">
+                                    <a class="tu-themegallery" data-gall="gall" href="images/tutordetail/slider/img-04.jpg">
+                                        <img src="/images/tutordetail/slider/img-04.jpg" alt="Image Description">
+                                    </a>
+                                </figure>
+                            </li>
+                            <li class="splide__slide">
+                                <figure class="tu-sync__content">
+                                    <a class="tu-themegallery" data-gall="gall" href="images/tutordetail/slider/img-05.jpg">
+                                        <img src="/images/tutordetail/slider/img-05.jpg" alt="Image Description">
+                                    </a>
+                                </figure>
+                            </li>
+                            <li class="splide__slide">
+                                <figure class="tu-sync__content">
+                                    <a class="tu-themegallery" data-gall="gall" href="images/tutordetail/slider/img-06.jpg">
+                                        <img src="/images/tutordetail/slider/img-06.jpg" alt="Image Description">
+                                    </a>
+                                </figure>
+                            </li>
+                            <li class="splide__slide">
+                                <figure class="tu-sync__content">
+                                    <a class="tu-themegallery" data-gall="gall" href="images/tutordetail/slider/img-07.jpg">
+                                        <img src="/images/tutordetail/slider/img-07.jpg" alt="Image Description">
+                                    </a>
+                                </figure>
+                            </li> *@
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="tu_splidev2" class="tu-syncthumbnail splide">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            @foreach (var media in Model)
+                            {
+                               
+                                if (media.Type == "2")
+                                {
+                                    <li class="splide__slide">
+                                        <figure class="tu-syncthumbnail__content">
+                                            <span class="tu-servicesvideo"></span>
+                                            <img src="/images/tutordetail/slider/thumbnails/img-02.png" alt="Image Description">
+                                        </figure>
+                                    </li>
+
+                                }
+                                else
+                                {
+                                    <li class="splide__slide">
+                                        <figure class="tu-syncthumbnail__content">
+                                            <img src="/@media.Url" alt="Image Description" height="66px">
+                                        </figure>
+                                    </li>
+                                }
+                            }
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* <div class="tu-btnarea-two">
+    <span>Save & update the latest changes to the live</span>
+    <a href="profile-setting-a.html" class="tu-primbtn-lg tu-primbtn-orange">Save & update</a>
+</div> *@
+
+
+
+@section Scripts
+{
+    <script src="~/js/tutor.js"></script>
+    <script src="~/js/vendor/venobox.min.js"></script>
+}

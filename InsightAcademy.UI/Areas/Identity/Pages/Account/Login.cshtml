@@ -1,0 +1,243 @@
+﻿@page
+@addTagHelper *,DNTCaptcha.Core
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BootStrap HTML5 CSS3 Theme</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="~/images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="~/css/feather.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/fontawesome/fontawesome.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/select2.min.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/splide.min.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/main.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/jquery.mCustomScrollbar.min.css">
+
+</head>
+<body>
+    <partial name="_Header"></partial>
+    <main>
+        <div class="tu-main-login">
+            <div class="tu-login-left">
+                <strong>
+                    <a href="Index"><img src="~/images/login/logo_white.png" alt="images"></a>
+                </strong>
+                <figure>
+                    <img src="~/images/login/img-01.png" alt="images">
+                </figure>
+                <div class="tu-login-left_title">
+                    <h2>Yes! we’re making progress</h2>
+                    <span>every minute & every second</span>
+                </div>
+            </div>
+            <div class="tu-login-right">
+                <div class="tu-login-right_title">
+                    <h2>Welcome!</h2>
+                    <h3>We know you'll come back</h3>
+                </div>
+                <form class="tu-themeform tu-login-form" id="account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <fieldset>
+                        <div class="tu-themeform__wrap">
+                            <div class="form-group-wrap">
+                                <div class="form-group">
+                                    <label>Email Address<em style="color:red">*</em></label>
+                                    <div class="tu-placeholderholder">
+                                     
+                                        <input  asp-for="Input.Email" type="email" class="form-control" placeholder="email">
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                      
+                                        </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Password<em style="color:red">*</em></label>
+                                    <div class="tu-placeholderholder">
+                                        <div class="input-group">
+                                            <input asp-for="Input.Password" type="password" class="form-control" id="passwordInput" placeholder="Password">
+                                          
+                                                <div class="input-group-text" onclick="togglePasswordVisibility(this, 'passwordInput')">
+                                                <i class="fa fa-fw fa-eye field-icon toggle-password fa-eye-slash"></i>
+                                              
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-group">
+                                <dnt-captcha asp-captcha-generator-max="999999"
+                                             asp-captcha-generator-min="111111"
+                                             asp-captcha-generator-language="English"
+                                             asp-captcha-generator-display-mode="ShowDigits"
+                                             asp-use-relative-urls="true"
+                                             asp-placeholder="Enter Captcha"
+                                             asp-validation-error-message="Please enter the security code."
+                                             asp-font-name="Tahoma"
+                                             asp-font-size="30"
+                                             asp-fore-color="#333333"
+                                             asp-back-color="#ccc"
+                                             asp-text-box-class="text-box form-control"
+                                             asp-text-box-template="<span class='input-group-prepend'><span class='form-group-text'></span></span>{0}"
+                                             asp-validation-message-class="text-danger"
+                                             asp-refresh-button-class="fas fa-redo btn-sm"
+                                             asp-use-noise="false" />
+                                 </div>
+                                @if (TempData["captchaError"] != null)
+                                {
+                                    <span class="text-danger alert alert-danger">@TempData["captchaError"]</span>
+                                }
+                                <div class="form-group">
+                                    <button type="submit"  class="tu-primbtn-lg"><span>Login now</span><i class="icon icon-arrow-right"></i></button>
+                                </div>
+                                <div class="form-group">
+                                    <div class="tu-optioanl-or">
+                                        <span>OR</span>
+                                    </div>
+                                </div>
+                               @*  <div class="form-group">
+                                    <a href="https://google.com/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin" target="_blank" class="tu-btn-signup">
+                                        <img src="~/images/google.png" alt="images">
+                                        Sign in with Google
+                                    </a>
+                                </div> *@
+                            
+                                <div class="tu-lost-password form-group">
+                                    <a class="nav-link" href="/identity/account/register">Join us today</a>
+                                    <a href="/identity/account/forgotpassword" class="tu-password-clr_light">Lost password?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                        <div>
+                            <p>
+                                There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                    article
+                                    about setting up this ASP.NET application to support logging in via external services
+                                </a>.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in Model.ExternalLogins!)
+                                    {                                      
+                                        <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"> <img src="/images/google.png" alt="images">Sign in with Google</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    </main>
+    
+</body>
+
+@* <h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h2>Use a local account to log in.</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="Input.Email" class="form-label">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password" class="form-label">Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="Input.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+                <div>
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p>
+                    <p>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>Use another service to log in.</h3>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                            about setting up this ASP.NET application to support logging in via external services</a>.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins!)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+</div>
+ *@
+
+    <partial name="_ValidationScriptsPartial" />
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/vendor/jquery.unobtrusive-ajax.js"></script>
+<script src="~/js/vendor/jquery.min.js"></script>
+<script src="~/js/vendor/bootstrap.min.js"></script>
+<script src="~/js/vendor/appear.js"></script>
+<script src="~/js/vendor/countTo.js"></script>
+<script src="~/js/vendor/splide.min.js"></script>
+<script src="~/js/vendor/select2.min.js"></script>
+<script src="~/js/main.js"></script>
+

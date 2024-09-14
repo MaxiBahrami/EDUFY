@@ -1,0 +1,204 @@
+﻿@model Tutor
+@{
+    Layout = "/views/tutor/_layout.cshtml";
+}
+<style>
+    div.tagsinput{
+        width:100% !important;
+        min-height: 48px !important;
+        height: 48px !important;
+    }
+
+    .tu-select:before, .tu-calendar:before
+    {
+        content:none !important;
+    }
+    .tu-placeholderholder
+    {
+        flex-wrap: wrap;
+    }
+
+    div#wordCount {
+        display: block;
+        text-align: right;
+        width: 100%;
+    }
+</style>
+
+<div class="tu-boxsm">
+    <div class="tu-boxsmtitle">
+        <h4>Personal details</h4>
+    </div>
+</div>
+<div class="tu-box">
+
+    <form class="tu-themeform tu-dhbform" method="post" asp-controller="Tutor" asp-action="PersonalDetails">
+        @Html.AntiForgeryToken()
+   <input type="hidden" asp-for="Id" />
+   <input type="hidden" asp-for="UserName" />
+        <fieldset>
+            <div class="tu-themeform__wrap">
+                <div class="form-group-wrap">
+                    <div class="form-group form-group-half">
+                        <label class="tu-label" asp-for="FirstName">First name</label>
+                        <div class="tu-placeholderholder">
+                            <input type="text" class="form-control" asp-for="FirstName" required="" placeholder="Your first name">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-half">
+                        <label class="tu-label" asp-for="LastName">Last name</label>
+                        <div class="tu-placeholderholder">
+                            <input type="text" class="form-control" asp-for="LastName" required="" placeholder="Your last name">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-half">
+                        <label class="tu-label" asp-for="Tagline">Your tagline</label>
+                        <div class="tu-placeholderholder">
+                            <input type="text" asp-for="Tagline" class="form-control" required="" placeholder="Add your tagline">
+                            <span asp-validation-for="Tagline" class="text-danger"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group form-group-half">
+                        <label class="tu-label" asp-for="HourlyRate">Hourly fee</label>
+                        <div class="tu-placeholderholder">
+                            <input type="number" asp-for="HourlyRate" class="form-control" required="" placeholder="Your hourly fee">
+                            <span asp-validation-for="HourlyRate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    @* <div class="form-group form-group-3half">
+                        <label class="tu-label">Country</label>
+                        <div class="tu-select">
+                            <select data-placeholder="Select Country from list" data-placeholderinput="Select Country from list" class="form-control" asp-for="Country" onchange="getCitiesByCountryId(this.value)" id="countryDropdown">
+                                <option value="" disabled>-- Select Country --</option>
+                            </select>
+                        </div>
+                    </div> *@
+                    <div class="form-group form-group-3half">
+                        <label class="tu-label">Country</label>
+                        <div class="tu-select">
+                            <select data-placeholder="Select Country from list" asp-for="Country" data-placeholderinput="Select Country from list" class="form-control js-example-basic-single" asp-items="ViewBag.Country" onchange="getCitiesByCountryId(this.value)">
+                                <option value="" disabled>-- Select Country --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-3half">
+                        <label class="tu-label" asp-for="City">City</label>
+                        <div class="tu-select">
+                            <select asp-for="City" data-placeholder="Select city" data-placeholderinput="Select city" class="form-control js-example-basic-single" asp-items="ViewBag.Cities" id="ddlcity">
+                                <option label="Select City from list"></option>
+                                <option value="" disabled>-- Select Country --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-3half">
+                        <label class="tu-label" asp-for="ZipCode">Zipcode</label>
+                        <div class="tu-placeholderholder">
+                            <input type="number" class="form-control" asp-for="ZipCode"  placeholder="Enter zipcode">
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tu-label">Languages</label>
+                        <div class="tu-select">
+                            <input type="text" placeholder="Tags" asp-for="Language" />
+                            <span asp-validation-for="Language" class="text-danger"></span>
+                        </div>
+                        @* <ul class="tu-labels">
+                            <li><span>Arabic <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                            <li><span>English <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                            <li><span>Chinese <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                            <li><span>Hebrew <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                            <li><span>Spanish <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                            <li><span>German <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                        </ul> *@
+                    </div>
+                    <div class="form-group">
+                        <label class="tu-label">I can teach on</label>
+                        <ul class="tu-status-filter">
+                            <li>
+                                <div class="tu-status-contnent">
+                                    <div class="tu-check tu-checksm">
+                                        <input type="checkbox" id="home" name="SelectedServices" checked="@(Model?.Services?.Contains("MyHome"))" value="MyHome" >
+                                        <label for="home">My home</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tu-status-contnent">
+                                    <div class="tu-check tu-checksm">
+                                        <input type="checkbox" id="home1" name="SelectedServices" checked="@(Model?.Services?.Contains("StudentHome"))" value="StudentHome">
+                                        <label for="home1">Student's home</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tu-status-contnent">
+                                    <div class="tu-check tu-checksm">
+                                        <input type="checkbox" id="online" name="SelectedServices" checked="@(Model?.Services?.Contains("Online"))" value="Online">
+                                        <label for="online">Online</label>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label class="tu-label" asp-for="Introduction">A brief introduction</label>
+                        <div class="tu-placeholderholder">
+                            <textarea asp-for="Introduction" class="form-control"></textarea>
+                            <span asp-validation-for="Introduction" class="text-danger"></span>
+                            <div id="wordCount"></div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="tu-btnarea-two">
+         
+            <button class="tu-primbtn-lg tu-primbtn-orange" type="submit">Save & update</button>
+        </div>
+    </form>
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"></partial>
+    <script src="/js/site.js"></script>
+    <script src="~/js/location.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Language').tagsInput();
+            // Initialize TinyMCE
+            // var editor = tinymce.init({
+            //     selector: 'textarea',
+            //     plugins: '',
+            //     menubar: false,
+            //     toolbar: 'bold italic | alignleft aligncenter alignright | bullist numlist outdent indent',
+            //     setup: function (editor) {
+            //         // Update word count when content changes
+            //         editor.on('init keyup change', function () {
+            //             var text = editor.getContent({ format: 'text' });
+            //             var wordCount = text.trim().split(/\s+/).length;
+            //             $('#wordCount').text(wordCount + '/500');
+            //             // Limit the number of words to 500
+            //             if (wordCount > 500) {
+            //                 var content = editor.getContent();
+            //                 // editor.setContent(content.substring(0, content.lastIndexOf(' ', 250)) + '</p></p><strong>YOU HAVE REACHED THE WORD LIMIT!</strong>');
+            //                 // Disable further typing
+            //                 editor.getBody().setAttribute('contenteditable', false);
+            //             } else {
+            //                 // Enable typing if limit is not reached
+            //                 editor.getBody().setAttribute('contenteditable', true);
+            //             }
+            //         });
+            //     }
+            // });
+        });
+
+
+
+    </script>
+}
+

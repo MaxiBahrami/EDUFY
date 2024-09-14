@@ -1,0 +1,338 @@
+﻿@using InsightAcademy.ApplicationLayer.Models
+@model Pager<TutorSubject>
+
+@{
+    ViewData["Title"] = "SearchTutor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="tu-bgmain tu-main">
+    <section class="tu-main-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tu-listing-wrapper">
+                        <div class="tu-sort">
+                            <h3>@Model.Items.Count() Search result in<span>“Mathematic”</span>tutors</h3>
+                            <div class="tu-sort-right-area">
+                                <div class="tu-sortby">
+                                    <span>Sort by: </span>
+                                    <div class="tu-select">
+                                        <select class="form-control tu-selectv" onchange="filter()" id="order">
+                                            <option value="ASC">Price low to high </option>
+                                            <option value="DESC">Price high to low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="tu-filter-btn">
+                                    <a class="tu-listbtn active" href="search-listing.html"><i class="icon icon-list"></i></a>
+                                    <a class="tu-listbtn" onclick="gridview()" /> <i class="icon icon-grid"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tu-searchbar-wrapper">
+                            <div class="tu-appendinput">
+                                <div class="tu-searcbar">
+                                    <div class="tu-inputicon">
+                                        <a href="javascript:void(0);"><i class="icon icon-search"></i></a>
+                                        <input type="text" class="form-control" placeholder="What do you want to explore?">
+                                    </div>
+                                    <div class="tu-select">
+                                        <i class="icon icon-layers"></i>
+                                        <select id="selectv8" data-placeholderinput="Select list" data-placeholder="Select category" class="form-control">
+                                            <option label="Select category"></option>
+                                            <option>Automotive</option>
+                                            <option>Beauty &amp; Care</option>
+                                            <option>Marketing</option>
+                                            <option>Child Care</option>
+                                            <option>House Cleaning</option>
+                                        </select>
+                                    </div>
+                                    <a href="search-listing.html" class="tu-primbtn-lg tu-primbtn-orange">Search now</a>
+                                </div>
+                            </div>
+                            <div class="tu-listing-search">
+                                <figure>
+                                    <img src="images/listing/shape.png" alt="image">
+                                </figure>
+                                <span>Start from here</span>
+                            </div>
+                        </div>
+                        <ul class="tu-searchtags">
+                            <li>
+                                <span>Pre-School <a href="javascript:void(0)"><i class="icon icon-x"></i></a></span>
+                            </li>
+                            <li>
+                                <span> Middle (Class 6-8) <a href="javascript:void(0)"><i class="icon icon-x"></i></a></span>
+                            </li>
+                            <li>
+                                <span>Intermediate <a href="javascript:void(0)"><i class="icon icon-x"></i></a></span>
+                            </li>
+                            <li>
+                                <span>5.0 Stars <a href="javascript:void(0)"><i class="icon icon-x"></i></a></span>
+                            </li>
+                            <li>
+                                <span>Online bookings <a href="javascript:void(0)"><i class="icon icon-x"></i></a></span>
+                            </li>
+                            <li>
+                                <span>Male only <a href="javascript:void(0)"><i class="icon icon-x"></i></a></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-xxl-3">
+                    <aside class="tu-asidewrapper">
+                        <a href="javascript:void(0)" class="tu-dbmenu"><i class="icon icon-chevron-left"></i></a>
+                        <div class="tu-aside-menu">
+                            <div class="tu-aside-holder">
+                                <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side2" role="button" aria-expanded="true">
+                                    <h5>Education level</h5>
+                                </div>
+                                <div id="side2" class="collapse show">
+                                    <div class="tu-aside-content">
+
+                                        <div class="tu-filterselect">
+                                            <div class="tu-select">
+                                                <select id="selectv7" asp-items="ViewBag.Degree" data-placeholder="Select education level" data-placeholderinput="Select education level" class="form-control tu-input-field">
+                                                    <option label="Select category"></option>
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="tu-filterselect">
+                                            <h6>Choose subjects</h6>
+                                            <ul class="tu-categoriesfilter">
+                                                @{
+                                                    var subjects = ViewBag.Subject as SelectList;
+                                                    if (subjects != null)
+                                                    {
+                                                        foreach (var subject in subjects)
+                                                        {
+                                                            <li>
+                                                                <div class="tu-check tu-checksm">
+                                                                    <input type="checkbox" id="@("expcheck" + subject.Value)" name="expcheck" value="@subject.Value">
+                                                                    <label for="@("expcheck" + subject.Value)">@subject.Text</label>
+                                                                </div>
+                                                            </li>
+                                                        }
+                                                    }
+                                                }
+                                            </ul>
+                                            <div class="show-more">
+                                                <a href="javascript:void(0);" class="tu-readmorebtn tu-show_more">Show all</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tu-aside-holder">
+                                <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side3" role="button" aria-expanded="true">
+                                    <h5>Price range</h5>
+                                </div>
+                                <div id="side3" class="collapse show">
+                                    <div class="tu-aside-content">
+                                        <div class="tu-rangevalue" data-bs-target="#tu-rangecollapse" role="list" aria-expanded="false">
+                                            <div class="tu-areasizebox">
+                                                <input type="number" class="form-control tu-input-field" step="1" placeholder="Min price" id="tu-min-value"  />
+                                                <input type="number" class="form-control tu-input-field" step="1" placeholder="Max price" id="tu-max-value" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tu-distanceholder">
+                                        <div id="tu-rangecollapse" class="collapse">
+                                            <div class="tu-distance">
+                                                <div id="tu-rangeslider" class="tu-tooltiparrow tu-rangeslider"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tu-aside-holder">
+                                <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side1a" role="button" aria-expanded="true">
+                                    <h5>Rating</h5>
+                                </div>
+                                <div id="side1a" class="collapse show">
+                                    <div class="tu-aside-content">
+                                        <ul class="tu-categoriesfilter">
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="rate" name="rate" checked>
+                                                    <label for="rate">
+                                                        <span class="tu-stars">
+                                                            <span></span>
+                                                        </span>
+                                                        <em class="tu-totalreview">
+                                                            <span>5.0/<em>5.0</em></span>
+                                                        </em>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="rate4" name="rate4">
+                                                    <label for="rate4">
+                                                        <span class="tu-stars tu-fourstar">
+                                                            <span></span>
+                                                        </span>
+                                                        <em class="tu-totalreview">
+                                                            <span>4.0/<em>5.0</em></span>
+                                                        </em>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="rate3" name="rate2" checked>
+                                                    <label for="rate3">
+                                                        <span class="tu-stars tu-threestar">
+                                                            <span></span>
+                                                        </span>
+                                                        <em class="tu-totalreview">
+                                                            <span>3.0/<em>5.0</em></span>
+                                                        </em>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="rate2a" name="rate2a">
+                                                    <label for="rate2a">
+                                                        <span class="tu-stars tu-twostar">
+                                                            <span></span>
+                                                        </span>
+                                                        <em class="tu-totalreview">
+                                                            <span>2.0/<em>5.0</em></span>
+                                                        </em>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="rate1a" name="rate1a">
+                                                    <label for="rate1a">
+                                                        <span class="tu-stars tu-onestar">
+                                                            <span></span>
+                                                        </span>
+                                                        <em class="tu-totalreview">
+                                                            <span>1.0/<em>5.0</em></span>
+                                                        </em>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tu-aside-holder">
+                                <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#Location" role="button" aria-expanded="true">
+                                    <h5>Location</h5>
+                                </div>
+                                <div id="Location" class="collapse show">
+                                    <div class="tu-aside-content">
+                                        <div class="tu-filterselect">
+                                            <div class="tu-placeholderholder">
+                                                <input type="text" id="location" class="form-control" required="" placeholder="Enter location" onblur="filter()">
+                                                <div class="tu-placeholder">
+                                                    <span>Enter Location</span>
+                                                    <em>*</em>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tu-distanceholder">
+                                            <div class="tu-rangeslider tu-tooltiparrow">
+                                                <span>Radius in miles  <em>m</em><span class="example-val" id="slider1-span">65</span></span>
+                                                <div id="tu-rangeslidertwo"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tu-aside-holder">
+                                <div class="tu-asidetitle" data-bs-toggle="collapse" data-bs-target="#side1ab" role="button" aria-expanded="true">
+                                    <h5>Miscellaneous</h5>
+                                </div>
+                                <div id="side1ab" class="collapse show">
+                                    <div class="tu-aside-content">
+                                        <ul class="tu-categoriesfilter">
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="nameaa" name="expcheck" checked>
+                                                    <label for="nameaa">Online bookings</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="namea" name="expcheck">
+                                                    <label for="namea">Profile photos</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="namea1" name="expcheck" checked>
+                                                    <label for="namea1">Male only</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="tu-check tu-checksm">
+                                                    <input type="checkbox" id="namea2" name="expcheck">
+                                                    <label for="namea2">Female only</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tu-filterbtns">
+                                <a href="search-listing.html" class="tu-primbtn">Apply filters</a>
+                                <a href="search-listing.html" class="tu-sb-sliver">Clear all filters</a>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <div class="col-xl-8 col-xxl-9">
+                    <div id="tutor" class="tu-listinginfo-holder">
+                        @foreach (var item in Model.Items)
+                        {
+                            <partial name="_TutorList" model="item.Tutor" />
+                        }
+                    </div>
+                    <div>
+                        <partial name="_Pagination" model="Model"></partial>
+                    </div>
+                   
+                </div>
+                <div class="col-lg-12 col-xl-9">
+                    <div id="grid" class="tu-listinginfo-holder">
+                        @foreach (var item in Model.Items)
+                        {
+                            <partial name="_TutorList2" model="item.Tutor" />
+                        }
+                    </div>
+                    <div>
+                        <partial name="_Pagination" model="Model"></partial>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+@section Scripts {
+    <script src="/js/vendor/nouislider.min.js"></script>
+    <script src="/js/vendor/wNumb.js"></script>
+    <script src="/js/vendor/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/wish-list.js"></script>
+    <script src="~/js/search-tutor.js"></script>
+    <script src="~/js/vendor/tippy.js"></script>
+    <script src="~/js/vendor/venobox.min.js"></script>
+    <script src="~/js/vendor/appear.js"></script>
+    <script src="~/js/vendor/countTo.js"></script>
+    <script src="~/js/vendor/splide.min.js"></script>
+       <script src="~/js/vendor/select2.min.js"></script>
+    <script src="~/js/vendor/nouislider.min.js"></script>>
+
+}
+

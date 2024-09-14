@@ -1,0 +1,163 @@
+﻿@using InsightAcademy.ApplicationLayer.IService
+@using InsightAcademy.ApplicationLayer.Models
+@using InsightAcademy.UI.Extensions
+@using InsightAcademy.UI.Helper
+@using InsightAcademy.UI.Hubs
+@model Pager<Tutor>
+@inject PresenceTracker _tracker;
+@inject IGeoService _geoService;
+@if (Model != null)
+{
+    @foreach (var filterTutor in Model.Items)
+    {
+        <div class="tu-listinginfo">
+            @{
+                bool hasBookmarked = filterTutor.WishLists.Any(l => l.ApplicationUserId == User.GetUserId() && l.TutorId == filterTutor.Id); // Assuming currentUser is available and represents the current user
+            }
+            @if (hasBookmarked)
+            {
+                <span class="tu-cardtagSave" onclick="deleteWishList('@filterTutor.Id')">
+
+                    <span class="bi bi-bookmark-fill"></span>
+                </span>
+            }
+            else
+            {
+                <span class="tu-cardtag" style="color: red !important;" onclick="addToWishList('@filterTutor.Id')">
+                    <!-- Bookmark icon when item is in wishlist -->
+                    <span class="bi bi-bookmark-fill"></span>
+                </span>
+            }
+          @*   <span class="tu-cardtag"></span> *@
+            <div class="tu-listinginfo_wrapper">
+                <div class="tu-listinginfo_title">
+                    <div class="tu-listinginfo-img">
+                        @{
+                            var isOnline = _tracker.GetOnlineUsers().Result.Contains(filterTutor.ApplicationUser.Id);
+                        }
+                        <figure class="profile-image-wrapper @(isOnline? "online" : "offline")">
+                            <img src="/@(filterTutor.ApplicationUser.ProfileImageUrl == null ? "images/man.png" : filterTutor.ApplicationUser.ProfileImageUrl)" class="rounded-circle" width="70" height="70" alt="image">
+                            <span class="status-indicator"></span>
+                        </figure>
+                        <div class="tu-listing-heading">
+                            <h5>
+                                <a href="/Tutor/Profile/@filterTutor.Id">
+                                    @filterTutor.FullName
+                                </a>
+                                @if (!string.IsNullOrEmpty(filterTutor.UserName))
+                                {
+                                    <span>&nbsp;@@@filterTutor.UserName</span>
+                                }
+                                @if (filterTutor.IsVerified == true)
+                                {
+                                    <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i>
+                                }
+                            </h5>
+                            <div class="tu-listing-location">
+                                @{
+                                    var city = !string.IsNullOrEmpty(filterTutor.City) ? await _geoService.GetCityById(Convert.ToInt32(filterTutor.City)) : null;
+                                    var cityName = city?.Name ?? "";
+                                    var country = !string.IsNullOrEmpty(filterTutor.Country) ? await _geoService.GetCountryById(Convert.ToInt32(filterTutor.Country)) : null;
+                                    var countryName = country?.Name ?? "";
+
+                                }
+                                <span onmouseover="showRatingBreakDown('@filterTutor.Id','@AppHelper.CalculateAverageRating(filterTutor.Reviews.Sum(r => r.Rating), filterTutor.Reviews.Count())')">@AppHelper.CalculateAverageRating(filterTutor.Reviews.Sum(r => r.Rating), filterTutor.Reviews.Count()) <i class="fa-solid fa-star"></i><em>(@filterTutor.Reviews.Count())</em></span><address><i class="icon icon-map-pin"></i> @cityName,@countryName</address>
+                                @if (!isOnline)
+                                {
+                                    <span> <i class="fas fa-clock"></i>  &nbsp; @AppHelper.GetLastOnlineText(filterTutor.ApplicationUser.LastOnline)</span>
+                                }
+                                else
+                                {
+                                    <span> <i class="fas fa-clock"></i>&nbsp; Online</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tu-listinginfo_price">
+                        <span>1 hour session:</span>
+                        <h4>$@filterTutor.HourlyRate/hr</h4>
+                    </div>
+                </div>
+                <div class="tu-listinginfo_description">
+
+                    <p class="description-content">
+                        @Html.Raw(filterTutor.Introduction.Substring(0, Math.Min(filterTutor.Introduction.Length, 200)))
+                        @if (filterTutor.Introduction.Length > 200)
+                        {
+                            <span id="dots">...</span>
+                            <span id="more"> @Html.Raw(@filterTutor.Introduction.Substring(200))</span>
+
+                            <a href="javascript:void(0)" onclick="addMoreText()" id="myBtn" class="read-more">Read More</a>
+                        }
+                    </p>
+                </div>
+                <div class="tu-listinginfo_service">
+                    <h6>You can get teaching service direct at</h6>
+                    <ul class="tu-service-list">
+                        @foreach (var services in filterTutor.Services.Split(","))
+                        {
+
+                            <li>
+                                <span>
+                                    <i class="icon icon-home tu-greenclr"></i>
+                                    @services
+                                </span>
+
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="tu-listinginfo_btn">
+                <div class="tu-iconheart">
+
+                    @{
+                        bool hasLiked = filterTutor.Likes.Any(l => l.ApplicationUserId == User.GetUserId() && l.TutorId == filterTutor.Id); // Assuming currentUser is available and represents the current user
+                    }
+                    @if (hasLiked)
+                    {
+
+                        <i onclick="deleteLike('@filterTutor.Id')" class="icon icon-heart tu-colorred"></i>
+
+                        <span>Liked</span>
+                    }
+                    else
+                    {
+
+
+                        <i class="icon icon-heart"></i>
+
+                        <span onclick="addToLike('@filterTutor.Id')">Like</span>
+                    }
+                </div>
+                <div class="tu-btnarea">
+                    @{
+                        bool disableButton = false;
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            var userId = User.GetUserId();
+                            if (userId == filterTutor.ApplicationUserId)
+                            {
+                                disableButton = true;
+                            }
+                        }
+                    }
+                    <button type="button" class="tu-secbtn"
+                            onclick="openChatPopup('@filterTutor.ApplicationUserId','@filterTutor.ApplicationUser.ProfileImageUrl','@filterTutor.FullName')"
+                    @(disableButton ? "disabled" : "")>
+                        Let’s talk now
+                    </button>
+                    <a asp-controller="Tutor" asp-action="Profile" asp-route-id="@filterTutor.Id" class="tu-primbtn">View full profile</a>
+                </div>
+            </div>
+        </div>
+    }
+
+
+    @section Scripts
+    {
+    <script src="~/js/wish-list.js"></script>
+    <script src="~/js/like.js"></script>
+    }
+
+}

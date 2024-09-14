@@ -1,0 +1,62 @@
+﻿<div class="row">
+	<div class="col-md-12 col-sm-12">
+		<div class="card  card-box">
+			<div class="card-head">
+				<header class="d-flex justify-content-between align-items-center mb-4">
+					<h2>Category List</h2>
+					<a href="/Admin/Category/CreateCategory" class="btn btn-primary">
+						<i class="bi bi-plus-circle"></i> Create New Category
+					</a>
+				</header>
+				
+				@* <div class="tools">
+					<a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+					<a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+					<a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+				</div> *@
+			</div>
+			<div class="card-body ">
+				<div class="table-wrap">
+					<div class="table-responsive">
+						<table class="table display product-overview mb-30" id="support_table">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>Name</th>
+
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if (Model != null)
+								{
+									int index = 1;
+									@foreach (var category in Model)
+									{
+
+
+										<tr>
+
+											<td>@index</td>
+											<td>@category.Name</td>
+
+											<td>
+												<a href="/Admin/Category/Edit/@category.Id" class="tblEditBtn">
+													<i class="fa fa-pencil"></i>
+												</a>
+												<a href="/Admin/Category/Delete/@category.Id" class="tblDelBtn">
+													<i class="fa fa-trash-o"></i>
+												</a>
+											</td>
+										</tr>
+										index++;
+									}
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

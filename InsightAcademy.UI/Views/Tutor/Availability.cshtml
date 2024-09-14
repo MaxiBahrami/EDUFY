@@ -1,0 +1,769 @@
+﻿@using InsightAcademy.DomainLayer.Models
+@model AvailabilityModel
+@{
+    ViewData["Title"] = "Availability";
+    Layout = "~/Views/Tutor/_Layout.cshtml";
+    var timeZones = ViewBag.ZonesList as List<string>;
+}
+
+<style>
+    /* styles.css */
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .availability-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+    }
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .timezone-select {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .day-slot {
+        margin-bottom: 15px;
+    }
+
+    .day-toggle {
+        display: flex;
+        align-items: center;
+    }
+
+        .day-toggle label {
+            margin-left: 10px;
+        }
+
+    .time-slot {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+        .time-slot input[type="time"] {
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+        .time-slot span {
+            margin: 0 5px;
+        }
+
+    .add-slot-btn, .delete-slot-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .delete-slot-btn {
+        background-color: #f44336;
+    }
+
+    .add-slot-btn:hover {
+        background-color: #45a049;
+    }
+
+    .delete-slot-btn:hover {
+        background-color: #e53935;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .cancel-btn, .next-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .cancel-btn {
+        background-color: #ccc;
+    }
+
+    .next-btn {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+        .next-btn:hover {
+            background-color: #45a049;
+        }
+
+    .duplicate-slot {
+        border: 2px solid #f44336; /* Red border for duplicate slots */
+        box-shadow: 0 0 5px rgba(244, 67, 54, 0.5); /* Optional: add shadow for better visibility */
+    }
+
+    .error-message {
+        color: #f44336; /* Red color for error messages */
+        font-size: 14px;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #f44336;
+        border-radius: 4px;
+        background-color: #fdecea; /* Light red background for visibility */
+    }
+</style>
+
+<div class="tu-boxsm">
+    <div class="tu-boxsmtitle">
+        <h4>Availability</h4>
+        <a href="javascript:void(0)" onclick="$('#education-form').css('display','block')">Add new</a>
+
+    </div>
+</div>
+
+<div class="tu-box">
+    <div class="availability-container">
+        <h2>Share your availability</h2>
+        <p>Select dates and times when you are generally available. If someone requests a meeting and you've synced a calendar, prior meetings will be blocked off as well.</p>
+        <div id="error-message" class="error-message" style="display: none;"></div> <!-- Error message container -->
+        <div class="timezone-select">     
+            <div class="form-group ">
+                <label for="timezone">Time zone</label>
+                <div class="tu-select">
+                    <select data-placeholder="Select zone" data-placeholderinput="Select zone" class="form-control js-example-basic-single" id="timezone">
+                        @foreach (var timeZone in timeZones)
+                        {
+                            if (timeZone == ViewBag.TimeZone)
+                            {
+                                <option value="@timeZone" selected="selected">@timeZone</option>
+                            }
+                            else
+                            {
+                                <option value="@timeZone">@timeZone</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+            </div>
+        </div>
+        <div class="timezone-select">
+            <div class="form-group">
+                <label for="timezone">Google meet link</label>
+                <input type="text" class="form-control" id="meeting-link" value="@ViewBag.GoogleMeetLink" />
+            </div>
+        </div>
+        @if (Model != null)
+        {
+            <form id="availability-form">
+                <!-- Monday Slot -->
+                <div class="day-slot" id="monday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="monday-toggle" @(Model.Monday.Any(z => z.IsActive == true) ? "checked" : "")>
+                        <label for="monday-toggle">Monday</label>
+                    </div>
+                    @if (Model.Monday.Count() > 0)
+                    {
+                        @for (int i = 0; i < Model.Monday.Count; i++)
+                        {
+                            <div class="time-slot">
+                                <input type="time" name="monday-start-time" value="@Model.Monday[i].StartTime">
+                                <span>to</span>
+                                <input type="time" name="monday-end-time" value="@Model.Monday[i].EndTime">
+
+                                <button type="button" class="add-slot-btn">+</button>
+                                <button type="button" class="delete-slot-btn">-</button>
+
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="time-slot">
+                            <input type="time" name="monday-start-time" value="09:00">
+                            <span>to</span>
+                            <input type="time" name="monday-end-time" value="10:00">
+                            <button type="button" class="add-slot-btn">+</button>
+                            <button type="button" class="delete-slot-btn">-</button>
+
+                        </div>
+                    }
+
+                </div>
+
+                <!-- Tuesday Slot -->
+                <div class="day-slot" id="tuesday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="tuesday-toggle" @(Model.Tuesday.Any(z => z.IsActive == true) ? "checked" : "")>
+                        <label for="tuesday-toggle">Tuesday</label>
+                    </div>
+                    @if (Model.Tuesday.Count() > 0)
+                    {
+                        @for (int i = 0; i < Model.Tuesday.Count; i++)
+                        {
+                            <div class="time-slot">
+                                <input type="time" name="monday-start-time" value="@Model.Tuesday[i].StartTime">
+                                <span>to</span>
+                                <input type="time" name="monday-end-time" value="@Model.Tuesday[i].EndTime">
+
+                                <button type="button" class="add-slot-btn">+</button>
+
+
+                                <button type="button" class="delete-slot-btn">-</button>
+
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="time-slot">
+                            <input type="time" name="tuesday-start-time" value="09:00">
+                            <span>to</span>
+                            <input type="time" name="tuesday-end-time" value="10:00">
+                            <button type="button" class="add-slot-btn">+</button>
+                            <button type="button" class="delete-slot-btn">-</button>
+
+                        </div>
+                    }
+
+                </div>
+
+                <!-- Wednesday Slot -->
+                <div class="day-slot" id="wednesday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="wednesday-toggle" @(Model.Wednesday.Any(z => z.IsActive == true) ? "checked" : "")>
+                        <label for="wednesday-toggle">Wednesday</label>
+                    </div>
+                    @if (Model.Wednesday.Count() > 0)
+                    {
+                        @for (int i = 0; i < Model.Wednesday.Count; i++)
+                        {
+                            <div class="time-slot">
+                                <input type="time" name="monday-start-time" value="@Model.Wednesday[i].StartTime">
+                                <span>to</span>
+                                <input type="time" name="monday-end-time" value="@Model.Wednesday[i].EndTime">
+
+
+                                <button type="button" class="add-slot-btn">+</button>
+
+
+                                <button type="button" class="delete-slot-btn">-</button>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="time-slot">
+                            <input type="time" name="wednesday-start-time" value="09:00">
+                            <span>to</span>
+                            <input type="time" name="wednesday-end-time" value="10:00">
+                            <button type="button" class="add-slot-btn">+</button>
+                            <button type="button" class="delete-slot-btn">-</button>
+
+                        </div>
+                    }
+
+                </div>
+
+                <!-- Thursday Slot -->
+                <div class="day-slot" id="thursday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="thursday-toggle" @(Model.Thursday.Any(z => z.IsActive == true) ? "checked" : "")>
+                        <label for="thursday-toggle">Thursday</label>
+                    </div>
+                    @if (Model.Thursday.Count > 0)
+                    {
+                        @for (int i = 0; i < Model.Thursday.Count; i++)
+                        {
+                            <div class="time-slot">
+                                <input type="time" name="monday-start-time" value="@Model.Thursday[i].StartTime">
+                                <span>to</span>
+                                <input type="time" name="monday-end-time" value="@Model.Thursday[i].EndTime">
+
+                                <button type="button" class="add-slot-btn">+</button>
+
+
+                                <button type="button" class="delete-slot-btn">-</button>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="time-slot">
+                            <input type="time" name="thursday-start-time" value="09:00">
+                            <span>to</span>
+                            <input type="time" name="thursday-end-time" value="10:00">
+                            <button type="button" class="add-slot-btn">+</button>
+                            <button type="button" class="delete-slot-btn">-</button>
+
+                        </div>
+                    }
+
+                    
+                </div>
+
+                <!-- Friday Slot -->
+                <div class="day-slot" id="friday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="friday-toggle" @(Model.Friday.Any(z => z.IsActive == true) ? "checked" : "")>
+                        <label for="friday-toggle">Friday</label>
+                    </div>
+                    @if (Model.Friday.Count > 0)
+                    {
+                        @for (int i = 0; i < Model.Friday.Count; i++)
+                        {
+                            <div class="time-slot">
+                                <input type="time" name="monday-start-time" value="@Model.Friday[i].StartTime">
+                                <span>to</span>
+                                <input type="time" name="monday-end-time" value="@Model.Friday[i].EndTime">
+
+                                <button type="button" class="add-slot-btn">+</button>
+
+
+                                <button type="button" class="delete-slot-btn">-</button>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="time-slot">
+                            <input type="time" name="friday-start-time" value="09:00">
+                            <span>to</span>
+                            <input type="time" name="friday-end-time" value="10:00">
+                            <button type="button" class="add-slot-btn">+</button>
+                            <button type="button" class="delete-slot-btn">-</button>
+
+                        </div>
+                    }
+                   
+                  
+                </div>
+
+                <!-- Saturday Slot -->
+                <div class="day-slot" id="saturday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="saturday-toggle" @(Model.Saturday.Any(z => z.IsActive == true) ? "checked" : "")>
+                        <label for="saturday-toggle">Saturday</label>
+                    </div>
+                    @if (Model.Saturday.Count > 0)
+                    {
+                        @for (int i = 0; i < Model.Saturday.Count; i++)
+                        {
+                            <div class="time-slot">
+                                <input type="time" name="monday-start-time" value="@Model.Saturday[i].StartTime">
+                                <span>to</span>
+                                <input type="time" name="monday-end-time" value="@Model.Saturday[i].EndTime">
+
+                                <button type="button" class="add-slot-btn">+</button>
+                                <button type="button" class="delete-slot-btn">-</button>
+
+                            </div>
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="time-slot">
+                            <input type="time" name="saturday-start-time" value="09:00">
+                            <span>to</span>
+                            <input type="time" name="saturday-end-time" value="10:00">
+                            <button type="button" class="add-slot-btn">+</button>
+                            <button type="button" class="delete-slot-btn">-</button>
+
+                        </div>
+                    }
+                </div>
+
+                <!-- Sunday Slot -->
+                <div class="day-slot" id="sunday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="sunday-toggle" @(Model.Sunday.Any(z => z.IsActive == true) ? "checked" : "")>
+                        <label for="sunday-toggle">Sunday</label>
+                    </div>
+                    @if (Model.Sunday.Count > 0)
+                    {
+                    @for (int i = 0; i < Model.Sunday.Count; i++)
+                    {
+                        <div class="time-slot">
+                            <input type="time" name="monday-start-time" value="@Model.Sunday[i].StartTime">
+                            <span>to</span>
+                            <input type="time" name="monday-end-time" value="@Model.Sunday[i].EndTime">
+
+                            <button type="button" class="add-slot-btn">+</button>
+                            <button type="button" class="delete-slot-btn">-</button>
+
+                        </div>
+                    }
+                    }
+                    else
+                    {
+                    <div class="time-slot">
+                        <input type="time" name="sunday-start-time" value="09:00">
+                        <span>to</span>
+                        <input type="time" name="sunday-end-time" value="10:00">
+                        <button type="button" class="add-slot-btn">+</button>
+                        <button type="button" class="delete-slot-btn">-</button>
+
+                    </div>
+                    }
+                </div>
+
+                <div class="form-actions">
+                    @* <button type="button" class="cancel-btn">Cancel</button> *@
+                    <button type="submit" style="float:right" class="tu-primbtn-lg tu-primbtn-orange next-btn">Save & update changes</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <form id="availability-form">
+                <!-- Monday Slot -->
+                <div class="day-slot" id="monday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="monday-toggle" checked>
+                        <label for="monday-toggle">Monday</label>
+                    </div>
+                    <div class="time-slot">
+                        <input type="time" name="monday-start-time" value="09:00">
+                        <span>to</span>
+                        <input type="time" name="monday-end-time" value="10:00">
+                        <button type="button" class="add-slot-btn">+</button>
+                        <button type="button" class="delete-slot-btn">-</button>
+
+                    </div>
+                </div>
+
+                <!-- Tuesday Slot -->
+                <div class="day-slot" id="tuesday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="tuesday-toggle" checked>
+                        <label for="tuesday-toggle">Tuesday</label>
+                    </div>
+                    <div class="time-slot">
+                        <input type="time" name="tuesday-start-time" value="09:00">
+                        <span>to</span>
+                        <input type="time" name="tuesday-end-time" value="10:00">
+                        <button type="button" class="add-slot-btn">+</button>
+                        <button type="button" class="delete-slot-btn">-</button>
+
+                    </div>
+                </div>
+
+                <!-- Wednesday Slot -->
+                <div class="day-slot" id="wednesday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="wednesday-toggle" checked>
+                        <label for="wednesday-toggle">Wednesday</label>
+                    </div>
+                    <div class="time-slot">
+                        <input type="time" name="wednesday-start-time" value="09:00">
+                        <span>to</span>
+                        <input type="time" name="wednesday-end-time" value="10:00">
+                        <button type="button" class="add-slot-btn">+</button>
+                        <button type="button" class="delete-slot-btn">-</button>
+
+                    </div>
+                </div>
+
+                <!-- Thursday Slot -->
+                <div class="day-slot" id="thursday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="thursday-toggle" checked>
+                        <label for="thursday-toggle">Thursday</label>
+                    </div>
+                    <div class="time-slot">
+                        <input type="time" name="thursday-start-time" value="09:00">
+                        <span>to</span>
+                        <input type="time" name="thursday-end-time" value="10:00">
+                        <button type="button" class="add-slot-btn">+</button>
+                        <button type="button" class="delete-slot-btn">-</button>
+
+                    </div>
+                </div>
+
+                <!-- Friday Slot -->
+                <div class="day-slot" id="friday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="friday-toggle" checked>
+                        <label for="friday-toggle">Friday</label>
+                    </div>
+                    <div class="time-slot">
+                        <input type="time" name="friday-start-time" value="09:00">
+                        <span>to</span>
+                        <input type="time" name="friday-end-time" value="10:00">
+                        <button type="button" class="add-slot-btn">+</button>
+                        <button type="button" class="delete-slot-btn">-</button>
+
+                    </div>
+                </div>
+
+                <!-- Saturday Slot -->
+                <div class="day-slot" id="saturday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="saturday-toggle" checked>
+                        <label for="saturday-toggle">Saturday</label>
+                    </div>
+                    <div class="time-slot">
+                        <input type="time" name="saturday-start-time" value="09:00">
+                        <span>to</span>
+                        <input type="time" name="saturday-end-time" value="10:00">
+                        <button type="button" class="add-slot-btn">+</button>
+                        <button type="button" class="delete-slot-btn">-</button>
+
+                    </div>
+                </div>
+
+                <!-- Sunday Slot -->
+                <div class="day-slot" id="sunday">
+                    <div class="day-toggle">
+                        <input type="checkbox" id="sunday-toggle" checked>
+                        <label for="sunday-toggle">Sunday</label>
+                    </div>
+                    <div class="time-slot">
+                        <input type="time" name="sunday-start-time" value="09:00">
+                        <span>to</span>
+                        <input type="time" name="sunday-end-time" value="10:00">
+                        <button type="button" class="add-slot-btn">+</button>
+                        <button type="button" class="delete-slot-btn">-</button>
+
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    @*    <button type="button" class="cancel-btn">Cancel</button> *@
+                    @* <button type="submit" class="next-btn">Save</button> *@
+                    <button type="submit" class="tu-primbtn-lg tu-primbtn-orange next-btn">Save & update changes</button>
+                </div>
+            </form>
+        }
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script>
+        // scripts.js
+        function handleDeleteButtonClick(event) {
+            if (event.target.classList.contains('delete-slot-btn')) {
+                const slot = event.target.closest('.time-slot');
+                if (slot) {
+                    slot.remove();
+                    validateUniqueSlots(slot.closest('.day-slot'));
+                }
+            }
+        }
+        document.addEventListener('click', handleDeleteButtonClick);
+        function validateUniqueSlots(daySlot) {
+            const timeSlots = Array.from(daySlot.querySelectorAll('.time-slot'));
+            const seenSlots = new Map();
+            let hasDuplicates = false;
+            let hasEmptySlots = false;
+            let previousEndTime = null;
+            let hasValidTime = true;
+
+            timeSlots.forEach(slot => {
+                const startTime = slot.querySelector('input[type="time"][name$="-start-time"]').value;
+                const endTime = slot.querySelector('input[type="time"][name$="-end-time"]').value;
+
+                if (!startTime || !endTime) {
+                    slot.classList.add('error-slot'); // Highlight empty slots
+                    hasEmptySlots = true;
+                } else {
+                    slot.classList.remove('error-slot');
+                }
+
+                const slotIdentifier = `${startTime}-${endTime}`;
+                if (startTime && endTime) {
+                    // Check for duplicates
+                    if (seenSlots.has(slotIdentifier)) {
+                        const originalSlot = seenSlots.get(slotIdentifier);
+                        slot.classList.add('duplicate-slot');
+                        originalSlot.classList.add('duplicate-slot');
+                        hasDuplicates = true;
+                       
+                    } else {
+                        seenSlots.set(slotIdentifier, slot);
+                        slot.classList.remove('duplicate-slot');
+                    }
+
+                    // Ensure the start time of the current slot is not earlier than the previous end time
+                    if (previousEndTime && startTime <= previousEndTime) {
+                        slot.classList.add('overlap-slot'); // Highlight overlapping/earlier slots
+                        showToast('error', 'You cannot add a time slot earlier than or overlapping with the previous slot');
+                        hideLoader();
+                        hasValidTime = false;
+                    } else {
+                        slot.classList.remove('overlap-slot');
+                    }
+
+                    previousEndTime = endTime; // Update the last end time
+                }
+            });
+
+            // Show error messages
+            if (hasEmptySlots) {
+                showToast('error', 'Please fill in all time slots');
+                hideLoader();
+                return false;
+            }
+            if (hasDuplicates) {
+                showToast('error', 'Please remove duplicate time slots');
+                hideLoader();
+                return false;
+            }
+
+            return !hasDuplicates && !hasEmptySlots && hasValidTime;
+        }
+
+
+        document.querySelectorAll('.add-slot-btn').forEach(button => {
+            button.addEventListener('click', function () {
+
+                const timeSlot = this.closest('.time-slot');
+                const newTimeSlot = timeSlot.cloneNode(true);
+
+                // Clear the values in the new time slot
+                newTimeSlot.querySelectorAll('input[type="time"]').forEach(input => input.value = '');
+
+                // Remove the '+' button from the new time slot
+                const addButton = newTimeSlot.querySelector('.add-slot-btn');
+                if (addButton) {
+                    addButton.remove();
+                }
+
+                // Insert the new time slot after the current one
+                timeSlot.after(newTimeSlot);
+                // validateUniqueSlots(timeSlot.closest('.day-slot'));
+                // Add event listener for the new delete button
+                newTimeSlot.querySelector('.delete-slot-btn').addEventListener('click', function () {
+                    newTimeSlot.remove();
+
+
+                });
+            });
+        });
+
+        document.getElementById('availability-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+            showLoader();
+            const availabilityData = {};
+            const formData = new FormData(event.target);
+            const errorMessageContainer = document.getElementById('error-message');
+            // Clear previous error message
+            errorMessageContainer.style.display = 'none';
+            errorMessageContainer.textContent = '';
+            // Get the selected time zone
+            availabilityData.timeZone = document.getElementById('timezone').value;
+            availabilityData.googleMeetLink = document.getElementById('meeting-link').value;
+
+            if (!availabilityData.timeZone)
+            {
+                showToast("error", "Time zone is required");
+                hideLoader();
+                return false;
+            }
+            if (!availabilityData.googleMeetLink) {
+                showToast("error", "Meeting Link is required");
+                hideLoader();
+                return false;
+            }
+            // Get the availability for each day
+            let isValid = true;
+
+            document.querySelectorAll('.day-slot').forEach(daySlot => {
+                const dayToggle = daySlot.querySelector('.day-toggle input[type="checkbox"]');
+                const dayName = dayToggle.id.replace('-toggle', '');
+
+                if (dayToggle.checked) {
+                    availabilityData[dayName] = [];
+
+                    if (!validateUniqueSlots(daySlot)) {
+                        isValid = false;
+                        errorMessageContainer.textContent = 'Duplicate time slots detected. Please remove or correct them.';
+                        errorMessageContainer.style.display = 'block';
+                        return;
+                    }
+
+                    daySlot.querySelectorAll('.time-slot').forEach(timeSlot => {
+                        const startTime = timeSlot.querySelector('input[type="time"][name$="-start-time"]').value;
+                        const endTime = timeSlot.querySelector('input[type="time"][name$="-end-time"]').value;
+
+                        if (startTime && endTime) {
+                            availabilityData[dayName].push({
+                                startTime: startTime,
+                                endTime: endTime
+                            });
+                        }
+                    });
+                }
+            });
+
+            if (isValid) {
+                console.log(availabilityData);
+                $.ajax({
+                    url: '/Tutor/Availability',
+                    type: 'POST',
+                    data: availabilityData,
+                    contentype: "application/json",
+                    success: function (response) {
+                        window.location.href = '/Tutor/Education';
+                    },
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 401) {
+                            // Redirect to login page
+                            window.location.href = '/identity/account/login';
+                        } else {
+                            console.error("Error uploading image: " + error);
+                        }
+                    },
+                    complete: function () {
+                        hideLoader();
+                    }
+                });
+            }
+        });
+    </script>
+
+}
+
+

@@ -1,0 +1,185 @@
+﻿@using InsightAcademy.UI.Extensions
+@model IEnumerable<Tutor>
+@if (Model != null && Model.Count() > 0)
+{
+    @foreach (var tutor in Model)
+    {
+        <div class="tu-listinginfo tu-listinginfo_two">
+            @{
+                bool hasBookmarked = tutor.WishLists.Any(l => l.ApplicationUserId == User.GetUserId() && l.TutorId == tutor.Id); // Assuming currentUser is available and represents the current user
+            }
+            @if (hasBookmarked)
+            {
+                <span onclick="deleteWishList('@tutor.Id')" class="tu-cardtagSave"></span>
+            }
+            else
+            {
+                <span onclick="addToWishList('@tutor.Id')" class="tu-cardtag"></span>
+            }
+
+            <div class="tu-listing-slider">
+                <div id="tu_splide_one" class="tusync splide tu_splide_one">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            @foreach (var media in tutor.Media)
+                            {
+                                if (media.Type == "2")
+                                {
+                                    <li class="splide__slide">
+                                        <figure class="tu-sync__content">
+                                            <a class="tu-themegallery" data-vbtype="video" data-gall="gall" href="/@media.Url" data-autoplay="true">
+                                                <img src="/images/listing/slider/img-01.jpg" alt="Image Description" />
+                                            </a>
+                                        </figure>
+                                    </li>
+
+                                }
+                                else
+                                {
+                                    <li class="splide__slide">
+                                        <figure class="tu-sync__content">
+                                            <a class="tu-themegallery" data-gall="gall" href="/@media.Url">
+                                                <img src="/@media.Url" alt="Image Description" />
+                                            </a>
+                                        </figure>
+                                    </li>
+                                }
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+                <div id="tusyncthumbnail_one" class="tusyncthumbnail_one splide">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            @foreach (var media in tutor.Media)
+                            {
+                                if (media.Type != "2")
+                                {
+                                    <li class="splide__slide">
+                                        <figure class="tusyncthumbnail__content">
+                                            <img src="/@media.Url" alt="Image Description">
+                                        </figure>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="splide__slide">
+                                        <figure class="tusyncthumbnail__content">
+                                            <img src="/images/listing/slider/img-01.jpg" alt="Image Description">
+                                        </figure>
+                                    </li>
+                                }
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tu-listinginfo_wrapper">
+                <div class="tu-listinginfo_title">
+                    <div class="tu-listinginfo-img">
+                        <figure>
+                            <img src="/@(tutor.ApplicationUser.ProfileImageUrl == null ? "images/man.png" : tutor.ApplicationUser.ProfileImageUrl)" alt="imge">
+                        </figure>
+                        <div class="tu-listing-heading">
+                            <h5>
+                                <a href="/Tutor/Profile/@tutor.Id">
+                                    @tutor.FullName
+                                </a>
+                                @if (!string.IsNullOrEmpty(tutor.UserName))
+                                {
+                                    <span>&nbsp;@@@tutor.UserName</span>
+                                }
+                                @if (tutor.IsVerified == true)
+                                {
+                                    <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i>
+                                }
+                            </h5>
+                            <div class="tu-listing-location">
+                                <address><i class="icon icon-map-pin"></i>@tutor.Country, @tutor.City</address>
+                                <span>0.0 <i class="fa-solid fa-star"></i><em>(0)</em></span>
+                                <div class="tu-iconheart">
+                                    @{
+                                        bool hasLiked = tutor.Likes.Any(l => l.ApplicationUserId == User.GetUserId() && l.TutorId == tutor.Id); // Assuming currentUser is available and represents the current user
+                                    }
+                                    @if (hasLiked)
+                                    {
+                                        <i onclick="deleteLike('@tutor.Id')" class="icon icon-heart tu-colorred"></i>
+
+                                        <span>liked</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="icon icon-heart"></i>
+
+                                        <span onclick="addToLike('@tutor.Id')">Like</span>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tu-listinginfo_price">
+                        <span>Starting from:</span>
+                        <h4>$@tutor.HourlyRate/hr</h4>
+                    </div>
+                </div>
+                <div class="tu-listinginfo_service">
+                    <h6>You can get teaching service direct at</h6>
+                    <ul class="tu-service-list">
+                        @if (tutor.Services.Contains("MyHome"))
+                        {
+                            <li>
+                                <span>
+                                    <i class="icon icon-home tu-greenclr"></i>
+                                    My home
+                                </span>
+                            </li>
+                        } @if (tutor.Services.Contains("StudentHome"))
+                        {
+                            <li>
+                                <span>
+                                    <i class="icon icon-map-pin tu-blueclr"></i>
+                                    Student's home
+                                </span>
+                            </li>
+                        }
+                        @if (tutor.Services.Contains("Online"))
+                        {
+                            <li>
+                                <span>
+                                    <i class="icon icon-video tu-orangeclr"></i>
+                                    Online
+                                </span>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+                <div class="tu-listinginfo_description">
+                    @Html.Raw(@tutor.Introduction)
+                </div>
+                <ul class="tu-serviceslist">
+                    @foreach (var subject in tutor.TutorSubject)
+                    {
+                        var tags = subject.Tags.Split(',');
+                        foreach (var tag in tags)
+                        {
+                            <li>
+                                <a href="search-listing.html">@tag</a>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+    }
+}
+@section Scripts {
+
+
+	<script src="~/js/wish-list.js"></script>
+    <script src="~/js/like.js"></script>
+}

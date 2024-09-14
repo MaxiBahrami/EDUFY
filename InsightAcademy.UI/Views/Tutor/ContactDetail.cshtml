@@ -1,0 +1,104 @@
+﻿@model Contact
+@{
+    ViewData["Title"] = "ContactDetail";
+    Layout = "~/Views/Tutor/_Layout.cshtml";
+}
+
+<div class="tu-boxsm">
+    <div class="tu-boxsmtitle">
+        <h4>Contact details</h4>
+    </div>
+</div>
+<div class="tu-box">
+    <form class="tu-themeform tu-dhbform" method="post" asp-controller="Tutor" asp-action="ContactDetail">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="TutorId" />
+        <fieldset>
+            <div class="tu-themeform__wrap">
+                <div class="form-group-wrap">
+                    <div class="form-group form-group-half">
+                        <label class="tu-label" asp-for="PhoneNumber">Phone number</label>
+                        <div class="tu-inputicon">
+                            <div class="tu-facebookv3">
+                                <i class="icon icon-phone-call"></i>
+                            </div>
+                            <div class="tu-placeholderholder">
+                                <input type="text" asp-for="PhoneNumber" class="form-control"  placeholder="Enter phone number">
+                                <div class="tu-placeholder">
+                                    <span>Enter phone number</span>
+                                    <em>*</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-half">
+                        <label class="tu-label" asp-for="Email">Email address</label>
+                        <div class="tu-inputicon">
+                            <div class="tu-facebookv3">
+                                <i class="icon icon-mail"></i>
+                            </div>
+                            <div class="tu-placeholderholder">
+                                <input type="email" asp-for="Email" class="form-control"  placeholder="Enter email address">
+                                <div class="tu-placeholder">
+                                    <span>Enter email address</span>
+                                    <em>*</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-half">
+                        <label class="tu-label" asp-for="SkypeId">Skype ID</label>
+                        <div class="tu-inputicon">
+                            <div class="tu-facebookv3">
+                                <i class="fa-brands fa-skype"></i>
+                            </div>
+                            <div class="tu-placeholderholder">
+                                <input type="text" asp-for="SkypeId" class="form-control" placeholder="Enter skype id">
+                                <div class="tu-placeholder">
+                                    <span>Enter skype id</span>
+                                    <em>*</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-half">
+                        <label class="tu-label" asp-for="WhatsappNumber">Whatsapp number</label>
+                        <div class="tu-inputicon">
+                            <div class="tu-facebookv3">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div class="tu-placeholderholder">
+                                <input type="text" asp-for="WhatsappNumber" class="form-control" placeholder="Enter whatsapp number">
+                                <div class="tu-placeholder">
+                                    <span>Enter whatsapp number</span>
+                                    <em>*</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="tu-label" asp-for="Website">Website</label>
+                        <div class="tu-inputicon">
+                            <div class="tu-facebookv3">
+                                <i class="icon icon-globe"></i>
+                            </div>
+                            <div class="tu-placeholderholder">
+                                <input type="text" class="form-control" asp-for="Website" placeholder="Enter website URL">
+                                <div class="tu-placeholder">
+                                    <span>Enter website URL</span>
+                                    <em>*</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tu-btnarea-two">
+             
+                <button type="submit" class="tu-primbtn-lg tu-primbtn-orange">Save & update</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

@@ -1,0 +1,175 @@
+﻿@model NewSubjectRequest
+@{
+    ViewData["Title"] = "Subjects";
+    Layout = "~/Views/Tutor/_Layout.cshtml";
+}
+
+
+<style>
+    div.tagsinput {
+        width: 100% !important;
+        min-height: 48px !important;
+        height: 48px !important;
+    }
+
+    .tu-select:before, .tu-calendar:before {
+        content: none !important;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        padding: 10px 20px;
+        line-height: 25px;
+        padding-right: 40px;
+        color: #1C1C1C;
+        font-weight: 600;
+    }
+</style>
+
+<div class="tu-boxsm">
+    <div class="tu-boxsmtitle">
+        <h4>I can teach</h4>
+        @* <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#popup-2">Add new</a> *@
+        <a href="javascript:void(0)" onclick="$('#subject-form').css('display','block')">Add new</a>
+    </div>
+</div>
+
+<div class="tu-box">
+    <div id="subject-form" style="display:none">
+        <form class="tu-themeform" method="post" asp-controller="Tutor" asp-action="NewSubjectRequest">
+            <input type="hidden" asp-for="Id" />
+            <fieldset>
+                <div class="tu-themeform__wrap">
+                    <div class="form-group">
+                        <label class="tu-label">Subject</label>
+                        <input type="text" class="form-control" asp-for="Subject">
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="tu-label">Category</label>
+                        <div class="tu-select">
+                            <select asp-for="Category" asp-items="ViewBag.Categories" id="selectv9" data-placeholderinput="Select list" data-placeholder="Select category" class="form-select ">
+                                <option label="Please select category"></option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                   
+                    <div>
+                        <button type="submit" class="tu-primbtn-lg tu-primbtn-orange">Send Request</button>
+                        <button type="button" class="btn btn-danger tu-primbtn-lg" onclick="$('#subject-form').css('display','none')">Cancel</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <br />
+    <div>
+        <ul class="tu-icanteach">
+            @{
+                var subjects = ViewBag.Subjects as List<TutorSubject>;
+            }
+            @if (subjects != null)
+            {
+                @foreach (var item in subjects)
+                {
+                    <li id="">
+                        <div class="tu-tech-title">
+                            <h6>@item.Category.Name</h6>
+                            <div class="tu-icon-holder">
+                                <a href="javascript:void(0)" onclick="editSubject('@item.Id')"><i class="icon icon-edit-3 tu-editclr"></i></a>
+                                <a href="javascript:void(0)" onclick="deleteSubject('@item.Id')"><i class="icon icon-trash-2 tu-deleteclr"></i></a>
+                            </div>
+                        </div>
+                        <ul class="tu-serviceslist">
+
+                            <li>@item.Subject.Name</li>
+                            @if (!string.IsNullOrEmpty(item.Tags))
+                            {
+                                @foreach (var tag in item.Tags.Split(","))
+                                {
+                                    <li>
+                                        <a href="javascript:void(0)">@tag</a>
+                                    </li>
+                                }
+                            }
+
+                        </ul>
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+</div>
+
+@* <div class="tu-btnarea-two">
+    <span>Save & update the latest changes to the live</span>
+    <a href="profile-setting-e.html" class="tu-primbtn-lg tu-primbtn-orange">Save & update</a>
+</div>
+ *@
+<!-- Services Category Start -->
+<div class="modal fade" id="popup-2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Add/edit category</h5>
+                <a href="javascript:void(0);" class="tu-close" data-bs-dismiss="modal" aria-label="Close"><i class="icon icon-x"></i></a>
+            </div>
+            <div class="modal-body">
+                <form class="tu-themeform">
+                    <fieldset>
+                        <div class="tu-themeform__wrap">
+                            <div class="form-group">
+                                <label class="tu-label">Please select what you can teach</label>
+                                <div class="tu-select">
+                                    <select id="selectv10" data-placeholder="Select country from list" data-placeholderinput="Select category from list" class="form-control tu-input-field" required>
+                                        <option label="Select country from list"></option>
+                                        <option>Marketing management</option>
+                                        <option>Web development</option>
+                                        <option>Content writing</option>
+                                        <option>Web optimization</option>
+                                        <option>User counciling</option>
+                                        <option>Staff management</option>
+                                        <option>Web optimization</option>
+                                        <option>Content writing</option>
+                                        <option>Web development</option>
+                                        <option>Marketing management</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="tu-select">
+                                    <select id="selectv11" data-placeholder="Select subject from list" data-placeholderinput="Select category from list" class="form-control tu-input-field" required>
+                                        <option label="Select subject from list"></option>
+                                        <option>Laravel</option>
+                                        <option>PSD to HTML</option>
+                                        <option>iOS</option>
+                                        <option>Clean coding</option>
+                                    </select>
+                                </div>
+                                <ul class="tu-labels">
+                                    <li><span>Computer Science <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                                    <li><span>Engineering - Comupter <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                                    <li><span>Mathematics <a href="javascript:void(0);"><i class="icon icon-x"></i></a></span></li>
+                                </ul>
+                            </div>
+                            <div class="form-group tu-formbtn">
+                                <a href="profile-setting-d.html" class="tu-primbtn-lg">Save & update changes</a>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"></partial>
+
+    <script>
+        $('#Tags').tagsInput();
+    </script>
+}

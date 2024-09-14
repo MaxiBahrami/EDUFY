@@ -1,0 +1,128 @@
+﻿@using InsightAcademy.UI.Helper
+@model IEnumerable<Tutor>
+<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+	<div class="card-box">
+		<div class="card-head">
+			<header> @ViewBag.Title Teachers List</header>
+		</div>
+		<div class="card-body ">
+			<div class="table-responsive">
+				<table class="table table-hover dashboard-task-infos">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>Department</th>
+							<th>Email</th>
+							<th>Subject</th>
+							<th>Rating</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var teachers in Model)
+						{
+
+
+							<tr>
+								<td class="patient-img">
+									<img src="/@teachers.ApplicationUser.ProfileImageUrl" alt="">
+								</td>
+								<td>@teachers.FullName</td>
+								<td>N/A</td>
+								<td>@teachers.ApplicationUser.Email</td>
+
+								<td>
+									@foreach (var data in teachers.TutorSubject)
+									{
+										var tags = data.Tags;
+										@tags
+									}
+								</td>
+
+								<td>
+								@if(teachers.IsVerified==true)
+									{
+										
+										var rating = AppHelper.CalculateAverageRating(teachers.Reviews.Sum(r => r.Rating), teachers.Reviews.Count());
+										var fullStar = (int)rating;
+										var halfStar = (rating - fullStar) >= 0.5 ? 1 : 0; //checking half star and full star
+										var emptyStar = 5 - fullStar - halfStar;
+
+
+
+										@for (int i = 0; i < fullStar; i++)
+										{
+
+											<i class="fas fa-star col-orange"></i>
+
+										}
+
+										@if (halfStar > 0)
+										{
+											<i class="fas fa-star-half-alt col-orange"></i>
+										}
+										@for (int i = 0; i < emptyStar; i++)
+										{
+
+											<i class="far fa-star" aria-hidden="true"></i>
+
+										}
+
+
+
+									}
+									else
+									{
+										<p>N/A</p>
+									}
+
+
+								</td>
+								<td>
+									<a asp-area="Admin" asp-controller="Dashboard" asp-action="EditTutor" asp-route-Id="@teachers.Id" class="tblEditBtn">
+										<i class="fa fa-pencil"></i>
+									</a>
+									<a href="javascript:void(0)" class="tblDelBtn">
+										<i class="fa fa-trash-o"></i>
+									</a>
+									@if (!teachers.IsVerified)
+									{
+										<a type="button" title="Approve" class=" approve-btn tblEditBtn" data-tutor-id="@teachers.Id">
+											<i class="bi bi-check-circle-fill"></i>
+										</a>
+									}
+									else
+									{
+										<a type="button" title="Reject" class="tblDelBtn unapprove-btn" data-tutor-id="@teachers.Id">
+											<i class="bi bi-x-lg"></i>
+										</a>
+									}
+									@* @{
+										var todayDate = DateTime.Now;
+									} *@
+									@if (teachers.IsBlock==true)
+									{
+										<i type="button" title="Un-Block" class="tblEditBtn  blockTutor" data-tutor-id="@teachers.ApplicationUserId">
+											<i class="bi bi-unlock-fill"></i>
+										</i>
+									}
+									else
+									{
+										<a type="button" title="Block" class="tblDelBtn mx-2 unblockTutor" data-tutor-id="@teachers.ApplicationUserId">
+											<i class="bi bi-lock"></i>
+										</a>
+									}
+									<a href="#" title="Message" class="tblEditBtn mx-2" onclick="openChatPopup('@teachers.ApplicationUserId')">
+										<i class="bi bi-envelope-arrow-up-fill"></i>
+									</a>
+								</td>
+							</tr>
+						}
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

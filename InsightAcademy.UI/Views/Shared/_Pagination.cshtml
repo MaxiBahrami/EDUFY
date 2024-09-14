@@ -1,0 +1,17 @@
+﻿@model dynamic
+<nav class="tu-pagination">
+    <ul>
+        <li class="tu-pagination-prev @(Model.PageNumber == 1 ? "disabled" : "")"><a href="#"><i class="icon icon-chevron-left"></i></a> </li>
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="@(Model.PageNumber  == i ? "active" : "")"><a href="/tutor/list?pageNumber=@i">@i</a> </li>
+        }
+  
+        @* <li><a href="#">2</a> </li>
+        <li><a href="#">3</a> </li>
+        <li class="active"><a href="#">4</a> </li>
+        <li><a href="#">...</a> </li>
+        <li><a href="#">60</a> </li> *@
+        <li class="tu-pagination-next @(Model.PageNumber  == Model.TotalPages  ? "disabled" : "")"><a href="#"><i class="icon icon-chevron-right"></i></a> </li>
+    </ul>
+</nav>

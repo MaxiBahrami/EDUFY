@@ -1,0 +1,53 @@
+﻿@using InsightAcademy.UI.Helper
+@model IEnumerable<Review>
+<div class="tu-tabswrapper">
+    <div class="tu-boxtitle">
+        <h4> @Model.Count() Reviews</h4>
+    </div>
+
+    <div class="tu-commentarea">
+        @foreach (var reviews in Model)
+        {
+            <div class="tu-commentlist">
+                <figure>
+                    <img src="/@reviews.Student.ProfileImageUrl" alt="images">
+                </figure>
+                <div class="tu-coomentareaauth">
+                    <div class="tu-commentright">
+                        <div class="tu-commentauthor">
+                            <h6>
+                                <span>@reviews.Student.FullName</span>
+                                @if (reviews.CreatedDateTime.HasValue)
+                                {
+                                    @AppHelper.GetLastOnlineText(reviews.CreatedDateTime.Value)
+                                }
+                            </h6>
+                            <div class="tu-listing-location tu-ratingstars">
+                                <span>@string.Format("{0:F1}", reviews.Rating)</span>
+                                <span>
+                                    @for (int i = 1; i <= reviews.Rating; i++)
+                                    {
+
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    }
+                                    @for (double i = reviews.Rating; i < 5; i++)
+                                    {
+                                        <i class="far fa-star" aria-hidden="true"></i>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tu-description">
+                        <p>
+                            @Html.Raw(reviews.Feedback)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="show-more">
+            <a href="javascript:void(0);" class="tu-readmorebtn tu-show_more">Show all</a>
+        </div>
+    </div>
+</div>

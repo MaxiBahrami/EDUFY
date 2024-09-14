@@ -1,0 +1,69 @@
+﻿@{
+	Layout = "_AdminLayout";
+}
+@model Tutor
+
+<form method="post">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card-box">
+				<div class="card-head">
+					<header>Edit Tutor</header>
+				</div>
+				<div class="card-body row">
+					<div class="col-lg-12 p-t-20">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+							<input asp-for="Country" class="mdl-textfield__input" type="text">
+							<label asp-for="Country" class="mdl-textfield__label"></label>
+							<span asp-validation-for="Country" class="text-danger"></span>
+
+						</div>
+					</div>
+					<div class="card-body row">
+						<div class="col-lg-12 p-t-20">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+								<input asp-for="City" class="mdl-textfield__input" type="text">
+								<label asp-for="City" class="mdl-textfield__label"></label>
+								<span asp-validation-for="City" class="text-danger"></span>
+
+							</div>
+						</div>
+						<div class="card-body row">
+							<div class="col-lg-12 p-t-20">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input asp-for="Contact.Website" class="mdl-textfield__input" type="text">
+									<label asp-for="Contact.Website" class="mdl-textfield__label"></label>
+									<span asp-validation-for="Contact.Website" class="text-danger"></span>
+
+								</div>
+							</div>
+							<div class="card-body row">
+								<div class="col-lg-12 p-t-20">
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+										<input asp-for="Contact.PhoneNumber" class="mdl-textfield__input" type="text">
+										<label asp-for="Contact.PhoneNumber" class="mdl-textfield__label"></label>
+										<span asp-validation-for="Contact.PhoneNumber" class="text-danger"></span>
+
+									</div>
+								</div>
+
+					<div class="col-lg-12 p-t-20 text-center">
+						<button type="submit"
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-circle btn-primary">
+							Update
+						</button>
+									<a onclick="window.history.back();"
+						   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-circle btn-danger">
+							Cancel
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

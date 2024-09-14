@@ -1,0 +1,169 @@
+﻿@using InsightAcademy.DomainLayer.ViewModel
+@{
+    Layout = "_AdminLayout";
+}
+@model DashBoardViewModel
+
+<div class="state-overview">
+    <div class="row">
+        <div class="col-xl-3 col-md-6 col-12">
+            <div class="info-box bg-b-green">
+                <span class="info-box-icon push-bottom"><i data-feather="users"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Students</span>
+                    <span class="info-box-number">@Model.DashBoard.AllStudent</span>
+                    @* <div class="progress">
+                        <div class="progress-bar" style="width: 45%"></div>
+                    </div>
+                    <span class="progress-description">
+                        45% Increase in 28 Days
+                    </span> *@
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xl-3 col-md-6 col-12">
+            <div class="info-box bg-b-yellow">
+                <span class="info-box-icon push-bottom"><i data-feather="user"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">New Students</span>
+                    <span class="info-box-number">@Model.DashBoard.LatestStudent</span>
+                    @* <div class="progress">
+                        <div class="progress-bar" style="width: 40%"></div>
+                    </div>
+                    <span class="progress-description">
+                        40% Increase in 28 Days
+                    </span> *@
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xl-3 col-md-6 col-12">
+            <div class="info-box bg-b-blue">
+                <span class="info-box-icon push-bottom"><i data-feather="book"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Tutors</span>
+                    <span class="info-box-number">@Model.DashBoard.AllTutor</span>
+                    @* <div class="progress">
+                        <div class="progress-bar" style="width: 85%"></div>
+                    </div>
+                    <span class="progress-description">
+                        85% Increase in 28 Days
+                    </span> *@
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xl-3 col-md-6 col-12">
+            <div class="info-box bg-b-pink">
+                <span class="info-box-icon push-bottom">
+                    <i class="material-icons">monetization_on</i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Fees Collection</span>
+                    <span class="info-box-number">@Model.DashBoard.Transactions</span><span>$</span>
+                    @* <div class="progress">
+                        <div class="progress-bar" style="width: 50%"></div>
+                    </div> *@
+                    @* <span class="progress-description">
+                        50% Increase in 28 Days
+                    </span> *@
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+</div>
+
+<partial name="_AdminTutorList" model="Model.Tutor" />
+@* <partial name="_NewSubjectRequest" model="Model.NewSubjectRequests" /> *@
+<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="card-box">
+        <div class="card-head">
+            <header>Recent Transactions</header>
+            <button id="panel-button8"
+                    class="mdl-button mdl-js-button mdl-button--icon pull-right"
+                    data-upgraded=",MaterialButton">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                data-mdl-for="panel-button8">
+                <li class="mdl-menu__item">
+                    <i class="material-icons">assistant_photo</i>Action
+                </li>
+                <li class="mdl-menu__item">
+                    <i class="material-icons">print</i>Another action
+                </li>
+                <li class="mdl-menu__item">
+                    <i class="material-icons">favorite</i>Something else
+                    here
+                </li>
+            </ul>
+        </div>
+        <div class="card-body ">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>#</th>
+                            <th>Order No</th>
+                            <th>Student Name</th>
+                            <th>Student Email</th>
+                            <th>Student Contact #</th>
+                            <th>Tutor Name</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                          @*   <th>Receipt</th>
+                            <th>Edit</th> *@
+                        </tr>
+                        @if (Model.RecentTransactions != null && Model.RecentTransactions.Count() > 0)
+                        {
+                            foreach (var transaction in Model.RecentTransactions)
+                            {
+                                <tr>
+                                    <td class="patient-img">
+                                        <img src="/@transaction.StudentImage" alt="">
+                                    </td>
+                                    <td>@transaction.Code</td>
+                                    <td>@transaction.StudentName</td>
+                                    <td>@transaction.StudentEmail</td>
+                                    <td>@transaction.StudentPhone</td>
+                                    <td>@transaction.TutorName</td>
+                                    @if (transaction.Status == "Pending Payment")
+                                    {
+                                        <td><i class="fas fa-circle col-red me-2"></i>@transaction.Status</td>
+                                    }
+                                    else
+                                    {
+                                        <td><i class="fas fa-circle col-green me-2"></i>@transaction.Status</td>
+                                    }
+                                    <td>$@transaction.Amount</td>
+                                   @*  <td><i class="fas fa-file-pdf col-red"></i></td>
+                                    <td>
+                                        <a data-toggle="tooltip" title="" data-bs-original-title="Edit"
+                                           aria-label="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                    </td> *@
+                                </tr>
+                            }
+
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/dashboard.js"></script>
+}
+

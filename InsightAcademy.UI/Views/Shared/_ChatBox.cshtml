@@ -1,0 +1,32 @@
+﻿
+<div id="chatPopup" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" onclick="closePopup('chatPopup')" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body text-center">
+                <img src="" class="rounded-circle" id="tutor-image" alt="User Image" style="width: 100px; height: 100px;">
+                <div class="mt-2">
+                    <h5 id="userName"></h5>
+                </div>
+                <div class="mt-3">
+                    <label for="description" style="color:black">Introduce yourself to the tutor, share your learning goals and ask any questions</label>
+                    <textarea class="form-control" id="description" rows="3" placeholder="Write your message here..."></textarea>
+                </div>
+                @* <div class="mt-3">
+                    <label for="messageInput" style="color:black">Message:</label>
+                    <input type="text" class="form-control" id="messageInput" placeholder="Type your message here">
+                </div> *@
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" id="btnSendMessage"  class="btn btn-secondary" onclick="sendMessage()">Send Message</button>
+            </div>
+        </div>
+    </div>
+</div>

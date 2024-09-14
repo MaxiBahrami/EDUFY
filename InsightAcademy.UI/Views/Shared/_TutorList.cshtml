@@ -1,0 +1,163 @@
+﻿@using InsightAcademy.ApplicationLayer.IService
+@using InsightAcademy.InfrastructureLayer.Data.Seed
+
+@using InsightAcademy.UI.Extensions
+@using InsightAcademy.UI.Helper
+@using InsightAcademy.UI.Hubs
+@inject PresenceTracker _tracker;
+@inject IGeoService _geoService;
+@model Tutor
+
+@if (Model != null)
+{
+
+    <div class="tu-listinginfo">
+
+        @{
+            bool hasBookmarked = Model.WishLists.Any(l => l.ApplicationUserId == User.GetUserId() && l.TutorId == Model.Id); // Assuming currentUser is available and represents the current user
+        }
+        @if (hasBookmarked)
+        {
+            <span class="tu-cardtagSave" onclick="deleteWishList('@Model.Id')">
+
+                <span class="bi bi-bookmark-fill"></span>
+            </span>
+        }
+        else
+        {
+            <span class="tu-cardtag" style="color: red !important;" onclick="addToWishList('@Model.Id')">
+                <!-- Bookmark icon when item is in wishlist -->
+                <span class="bi bi-bookmark-fill"></span>
+            </span>
+        }
+
+        <div class="tu-listinginfo_wrapper">
+            <div class="tu-listinginfo_title">
+                <div class="tu-listinginfo-img">
+                    @{
+                        var isOnline = _tracker.GetOnlineUsers().Result.Contains(Model.ApplicationUser.Id);
+                    }
+                    <figure class="profile-image-wrapper @(isOnline? "online" : "offline")">
+                        <img src="/@(Model.ApplicationUser.ProfileImageUrl == null ? "images/man.png" : Model.ApplicationUser.ProfileImageUrl)" class="rounded-circle" width="70" height="70" alt="image">
+                        <span class="status-indicator"></span>                  
+                    </figure>
+                    <div class="tu-listing-heading">
+                        <h5>
+                            <a href="/Tutor/Profile/@Model.Id">
+                                @Model.FullName
+                            </a>
+                            @if (!string.IsNullOrEmpty(Model.UserName))
+                            {
+                                <span>&nbsp;@@@Model.UserName</span>
+                            }
+                            @if (Model.IsVerified == true)
+                            {
+                                <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i>
+                            }
+                        </h5>
+                        <div class="tu-listing-location">
+                            @{
+                                var city = !string.IsNullOrEmpty(Model.City) ? await _geoService.GetCityById(Convert.ToInt32(Model.City)) : null;
+                                var cityName = city?.Name ?? "";
+                                var country = !string.IsNullOrEmpty(Model.Country) ? await _geoService.GetCountryById(Convert.ToInt32(Model.Country)) : null;
+                                var countryName = country?.Name ?? "";
+
+                            }
+                            <span onmouseover="showRatingBreakDown('@Model.Id','@AppHelper.CalculateAverageRating(Model.Reviews.Sum(r => r.Rating), Model.Reviews.Count())')">@String.Format("{0:F1}", @AppHelper.CalculateAverageRating(Model.Reviews.Sum(r => r.Rating), Model.Reviews.Count()))<i class="fa-solid fa-star"></i><em>@Model.Reviews.Count()</em></span><address><i class="icon icon-map-pin"></i> @cityName, @countryName</address>
+                           @if (!isOnline)
+                            {
+                                <span> <i class="fas fa-clock"></i>  &nbsp; @AppHelper.GetLastOnlineText(Model.ApplicationUser.LastOnline)</span>
+                            }
+                            else
+                            {
+                                <span> <i class="fas fa-clock"></i>&nbsp; Online</span>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tu-listinginfo_price">
+                    <span>1 hour session:</span>
+                    <h4>$@Model.HourlyRate/hr</h4>
+                </div>
+            </div>
+
+            <div class="tu-listinginfo_description">
+
+                <p class="description-content">
+                    @Html.Raw(Model.Introduction.Substring(0, Math.Min(Model.Introduction.Length, 200)))
+                    @if (Model.Introduction.Length > 200)
+                    {
+                        <span id="dots">...</span>
+                        <span id="more"> @Html.Raw(@Model.Introduction.Substring(200))</span>
+
+                        <a href="javascript:void(0)" onclick="addMoreText()" id="myBtn" class="read-more">Read More</a>
+                    }
+                </p>
+            </div>
+            <div class="tu-listinginfo_service">
+                <h6>You can get teaching service direct at</h6>
+                <ul class="tu-service-list">
+                    @foreach (var services in Model.Services.Split(","))
+                    {
+                        <li>
+                            <span>
+                                <i class="icon icon-home tu-greenclr"></i>
+                                @services
+                            </span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="tu-listinginfo_btn">
+            <div class="tu-iconheart">
+                @{
+                    bool hasLiked = Model.Likes.Any(l => l.ApplicationUserId == User.GetUserId() && l.TutorId == Model.Id); // Assuming currentUser is available and represents the current user
+                }
+                @if (hasLiked)
+                {
+
+                    <i onclick="deleteLike('@Model.Id')" class="icon icon-heart tu-colorred"></i>
+
+                    <span>Liked</span>
+                }
+                else
+                {
+                    <i class="icon icon-heart"></i>
+
+                    <span onclick="addToLike('@Model.Id')">Like</span>
+                }
+
+            </div>
+
+            <div class="tu-btnarea">
+                @{
+                    bool disableButton = false;
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        var userId = User.GetUserId();
+                        if (userId == Model.ApplicationUserId)
+                        {
+                            disableButton = true;
+                        }
+                    }
+                }
+
+                <button type="button" class="tu-secbtn"
+                        onclick="openChatPopup('@Model.ApplicationUserId','@Model.ApplicationUser.ProfileImageUrl','@Model.FullName')"
+                @(disableButton ? "disabled" : "")>
+                    Let’s talk now
+                </button>
+
+                <a href="/Tutor/Profile/@Model.Id" class="tu-primbtn">View full profile</a>
+            </div>
+        </div>
+    </div>
+
+
+}
+<partial name="_ChatBox"></partial>
+<script src="~/js/wish-list.js"></script>
+<script src="~/js/chat.js"></script>

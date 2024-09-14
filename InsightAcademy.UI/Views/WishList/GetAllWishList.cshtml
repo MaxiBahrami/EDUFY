@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WishList>
+@{
+    ViewData["Title"] = "GetAllWishList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .profile-image-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 70px;
+        height: 70px;
+    }
+
+        .profile-image-wrapper img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+    .status-indicator {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        width: 15px;
+        height: 15px;
+        border: 2px solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-image-wrapper.online .status-indicator {
+        background-color: green;
+    }
+
+    .profile-image-wrapper.offline .status-indicator {
+        background-color: red;
+    }
+</style>
+<div class="col-xl-8 col-xxl-9" style="margin-left: 15%; margin-top:2% ; margin-bottom:2%">
+    <div class="tu-listinginfo-holder">
+        @foreach (var item in Model)
+        {
+            <partial name="_TutorList" model="item.Tutor" />
+        }
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/js/tutor.js"></script>
+}

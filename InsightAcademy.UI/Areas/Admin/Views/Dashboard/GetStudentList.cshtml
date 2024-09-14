@@ -1,0 +1,84 @@
+﻿@using InsightAcademy.DomainLayer.Entities.Identity
+@model IEnumerable<ApplicationUser>
+<div class="row">
+	
+	<div class="col-md-12 col-sm-12">
+		<div class="card  card-box">
+			<div class="card-head">
+				<header>New Student List</header>
+				<div class="tools">
+					<a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+					<a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+					<a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+				</div>
+			</div>
+			<div class="card-body ">
+				<div class="table-wrap">
+					<div class="table-responsive">
+						<table class="table display product-overview mb-30" id="support_table">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Assigned Professor</th>
+									<th>Date Of Admit</th>
+									<th>Fees</th>
+									<th>Branch</th>
+									<th>Edit</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var student in Model)
+								{
+									<tr>
+										<td>1</td>
+										<td>@student.FullName</td>
+										<td>@student.Email</td>
+										<td>N/A</td>
+										<td>N/A</td>
+										<td>
+											<span class="label label-sm label-success">paid</span>
+										</td>
+										<td>N/A</td>
+										<td>
+											<a asp-area="Admin" asp-controller="Dashboard" asp-action="EditStudentByAdmin" asp-route-Id="@student.Id" class="tblEditBtn">
+												<i class="fa fa-pencil"></i>
+											</a>
+											<a href="javascript:void(0)" class="tblDelBtn">
+												<i class="fa fa-trash-o"></i>
+											</a>
+											<a href="#" title="Message" class="tblEditBtn mx-2" onclick="openChatPopup('@student.Id')">
+												<i class="bi bi-envelope-arrow-up-fill"></i>
+											</a>
+											@if (student.Status == true)
+											{
+												<i type="button" title="Un-Block" class="tblEditBtn  unblockStudent" data-student-id="@student.Id">
+													<i class="bi bi-unlock-fill"></i>
+												</i>
+
+											}
+											else
+											{
+												<i type="button" title="Block" class="tblDelBtn mx-2 blockStudent " data-student-id="@student.Id">
+													<i class="bi bi-lock"></i>
+												</i>
+											
+											
+												
+											}
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@section Scripts
+{
+	<script src="~/js/dashboard.js"></script>
+}

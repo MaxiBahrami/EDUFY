@@ -1,0 +1,152 @@
+﻿@page
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *,DNTCaptcha.Core
+
+@using InsightAcademy.UI.Areas.Admin.Pages
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta name="description" content="Responsive Admin Template" />
+    <meta name="author" content="RedstarHospital" />
+    <title>Smart University | Bootstrap Responsive Admin Template</title>
+    <!-- google font -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
+          type="text/css" />
+    <!-- icons -->
+    <link rel="stylesheet" href="~/assets/plugins/iconic/css/material-design-iconic-font.min.css">
+    <!-- bootstrap -->
+    <link href="~/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme Styles -->
+    <link href="~/assets/css/theme/light/theme_style.css" rel="stylesheet" id="rt_style_components" type="text/css" />
+    <!-- style -->
+    <link rel="stylesheet" href="~/assets/css/pages/login.css">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="~/assets/img/favicon.ico" />
+
+	
+
+	<link rel="stylesheet" href="~/css/feather.css"> <!-- Adjust path if necessary -->
+	<link rel="stylesheet" href="~/css/fontawesome/fontawesome.css"> <!-- Adjust path if necessary -->
+	
+	<link rel="stylesheet" href="~/css/main.css"> <!-- Adjust path if necessary -->
+	
+
+</head>
+<body>
+ 
+    <main>
+		<div class="main">
+			<!-- Sing in  Form -->
+			<section class="sign-in">
+				<div class="container">
+					<div class="signin-content">
+						<div class="signin-image">
+							<figure><img src="~/assets/img/pages/signin.jpg" alt="sing up image"></figure>
+							<a href="sign_up.html" class="signup-image-link">Create an account</a>
+						</div>
+						<div class="signin-form">
+							<h2 class="form-title">Login</h2>
+							<form class="register-form" id="admin" method="post">
+								<div class="form-group">
+									<div class="">
+										<input asp-for="Input.Email" type="text" placeholder="Email"
+											   class="form-control input-height" />
+										<span asp-validation-for="Input.Email" class="text-danger"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="">
+										<div class="input-group">
+										<input asp-for="Input.Password" type="password" id="passwordInput" placeholder="Password"
+											   class="form-control input-height" />
+									
+										<div class="input-group-text" onclick="togglePasswordVisibility(this, 'passwordInput')">
+											<i class="fa fa-fw fa-eye field-icon toggle-password fa-eye-slash"></i>
+											</div>
+									</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<dnt-captcha asp-captcha-generator-max="999999"
+												 asp-captcha-generator-min="111111"
+												 asp-captcha-generator-language="English"
+												 asp-captcha-generator-display-mode="ShowDigits"
+												 asp-use-relative-urls="true"
+												 asp-placeholder="Enter Captcha"
+												 asp-validation-error-message="Please enter the security code."
+												 asp-font-name="Tahoma"
+												 asp-font-size="30"
+												 asp-fore-color="#333333"
+												 asp-back-color="#ccc"
+												 asp-text-box-class="text-box form-control"
+												 asp-text-box-template="<span class='input-group-prepend'><span class='form-group-text'></span></span>{0}"
+												 asp-validation-message-class="text-danger"
+												 asp-refresh-button-class="fas fa-redo btn-sm"
+												 asp-use-noise="false" />
+								</div>
+								@if (TempData["captchaError"] != null)
+								{
+									<span class="text-danger alert alert-danger">@TempData["captchaError"]</span>
+								}
+								@* <div class="form-group">
+									<input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+									<label for="remember-me" class="label-agree-term">
+										<span><span></span></span>Remember
+										me
+									</label>
+								</div> *@
+								<div class="form-group form-button">
+									<button type="submit" asp-page-handler="Login" class="btn btn-round btn-primary" >Login</button>
+								</div>
+								<div class="tu-lost-password form-group">
+									
+									<a href="/identity/account/forgotpassword" class="tu-password-clr_light">Lost password?</a>
+								</div>
+							</form>
+							@* <div class="social-login">
+								<span class="social-label">Or login with</span>
+								<ul class="socials">
+									<li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+									<li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+									<li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+								</ul>
+							</div> *@
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+    </main>
+    
+</body>
+
+
+
+    <partial name="_ValidationScriptsPartial" />
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/vendor/jquery.unobtrusive-ajax.js"></script>
+<script src="~/js/vendor/jquery.min.js"></script>
+<script src="~/js/vendor/bootstrap.min.js"></script>
+<script src="~/js/vendor/appear.js"></script>
+<script src="~/js/vendor/countTo.js"></script>
+<script src="~/js/vendor/splide.min.js"></script>
+<script src="~/js/vendor/select2.min.js"></script>
+<script src="~/js/main.js"></script>
+<!-- start js include path -->
+<script src="~/js/assets/plugins/jquery/jquery.min.js"></script>
+<!-- bootstrap -->
+<script src="~/js/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- end js include path -->
+

@@ -1,0 +1,83 @@
+﻿@using InsightAcademy.ApplicationLayer.Services
+@inject ITutorService _tutor;
+@{
+    ViewData["Title"] = "GetMyBookings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <style>
+        .container {
+            margin-top: 30px;
+        }
+
+        .booking-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <div class="container">
+        <!-- Future Bookings Section -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="section-title">Future Bookings</h2>
+            </div>
+
+            <!-- Example of Future Booking Card -->
+        @foreach (var item in ViewBag.FutureBookings as List<Booking>)
+        {
+            var tutor = await _tutor.GetTutor(item.TutorId);
+            <div class="col-md-6">
+                <div class="booking-card bg-light p-3">
+                    <p><strong>Tutor Name: @tutor.FullName</p>
+                    <p><strong>Date:</strong> @item.BookingDate.ToString("dd/MM/yyyy")</p>
+                    <p><strong>Start Time:</strong> @item.StartTime</p>
+                    <p><strong>End Time:</strong> @item.EndTime</p>
+                    <p><strong>Join:</strong> <a href="@tutor.GoogleMeetLink">Join</a></p>
+            
+                </div>
+            </div>
+        }
+       
+  
+        </div>
+
+        <!-- Past Bookings Section -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="section-title">Past Bookings</h2>
+            </div>
+
+            <!-- Example of Past Booking Card -->
+        @foreach (var item in ViewBag.PastBookings as List<Booking>)
+        {
+           var tutor= await _tutor.GetTutor(item.TutorId);
+            <div class="col-md-6">
+                <div class="booking-card bg-light p-3">
+                    <p><strong>Tutor: @tutor.FullName</p>
+                    <p><strong>Date:</strong> @item.BookingDate.Date.ToString("dd/MM/yyyy")</p>
+                    <p><strong>Start Time:</strong> @item.StartTime</p>
+                    <p><strong>End Time:</strong> @item.EndTime</p>
+                  
+
+                </div>
+            </div>
+        }
+
+        
+        </div>
+    </div>
+
+

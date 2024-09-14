@@ -1,0 +1,695 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model Subject
+<!-- BANNER START -->
+<div class="tu-banner">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-7">
+                    <div class="tu-banner_title">
+                        <h1>A good <span>#education</span> is always a base of a bright future</h1>
+                        <p>Consectur adipiscing elitsedo eiusmod tempor incididuntem utaborate dolore magna aliqua ad minim veniamque.</p>
+                        <div class="tu-searchbar-wrapper tu-banner-search">
+                            <div class="tu-appendinput">
+                                <div class="tu-starthere">
+                                    <span>Start from here</span>
+                                    <img src="images/knob_line.svg" alt="img">
+                                </div>
+                                <div class="tu-searcbar">
+                                    <div class="tu-inputicon">
+                                        <i class="icon icon-search"></i>
+                                        <input type="text" class="form-control" id="search" placeholder="What do you want to explore?">
+                                    </div>
+                                    <div class="tu-select">
+                                        <i class="icon icon-layers"></i>
+                                        <select asp-items="	ViewBag.Subject" id="selectv8" data-placeholderinput="Select list" data-placeholder="Select list type" class="form-control tu-input-field">
+                                            <option label="Select list type"></option>
+
+                                        </select>
+                                    </div>
+                                    <a href="#" class="tu-primbtn-lg tu-primbtn-orange" onclick="searchTutor()">Search now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tu-popularsearches">
+                            <h5>Popular searches:</h5>
+                            <ul class="tu-popsearchitem">
+                                <li><a href="search-listing.html">WordPress</a></li>
+                                <li><a href="search-listing.html">Laravel</a></li>
+                                <li><a href="search-listing.html">UI UX designer</a></li>
+                                <li><a href="search-listing.html">video animator</a></li>
+                                <li><a href="search-listing.html">Marketing</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 d-none d-xl-block">
+                    <figure class="tu-bannervtwo_img">
+                        <img src="images/index/banner/img-07.png" alt="img description">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row align-items-center g-0 gy-5">
+                <div class="col-lg-6">
+                    <div class="tu-banner_title">
+                        <h1>A good <span>#education</span> is always a base of</h1>
+                        <span class="tu-bannerinfo type"></span>
+                        <p>Unlock your potential with our transformative education platform.</p>
+                        <ul class="tu-banner_list">
+                            <li>
+                                <div class="tu-starthere">
+                                    <span>Start from here</span>
+                                    <img src="~/images//knob_line.svg" alt="img">
+                                </div>
+                                <a href="/Identity/account/JoinAsStudent" class="tu-primbtn tu-primbtn-gradient"><span>Start as student</span><i class="icon icon-chevron-right"></i></a>
+                            </li>
+                            <li><a href="/Identity/account/JoinAsTeacher" class="tu-secbtn"><span>Join as Instructor</span><em>It’s Free!</em></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <div class="tu-bannerv1_img">
+                        <img src="~/images//index/banner/img-02.png" alt="img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<!-- BANNER END -->
+<!-- MAIN START -->
+<main class="tu-main">
+    <!-- BRANDS START -->
+    <section>
+        <div class="tu-brand">
+            <div class="container">
+                <ul class="tu-brand_list">
+                    <li><img src="~/images//brand/img-01.png" alt="img"></li>
+                    <li><img src="~/images//brand/img-02.png" alt="img"></li>
+                    <li><img src="~/images//brand/img-03.png" alt="img"></li>
+                    <li><img src="~/images//brand/img-04.png" alt="img"></li>
+                    <li><img src="~/images//brand/img-05.png" alt="img"></li>
+                    <li><img src="~/images//brand/img-06.png" alt="img"></li>
+                    <li><img src="~/images//brand/img-07.png" alt="img"></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- BRANDS END -->
+    <!-- PLATFORM START -->
+    <section class="tu-main-section">
+        <div class="container">
+            <div class="row align-items-center gy-4">
+                <div class="col-md-12 col-lg-6">
+                    <div class="tu-maintitle p-0">
+                        <img src="~/images//zigzag-line.svg" alt="img">
+                        <h4>Better Learning. Better Results</h4>
+                        <h2>Online education platform that fits for everyone</h2>
+                        <p>Experience better learning and achieve better results with our online education platform.</p>
+                        <p>Discover a world of knowledge and opportunities with our comprehensive education platform.</p>
+                        <a asp-controller="Home" asp-action="HowItWorks" class="tu-primbtn-lg"><span>Explore more about us</span><i class="icon icon-chevron-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="tu-betterresult">
+                        <figure>
+                            <img src="~/images//index/platform/img-01.png" alt="image-description">
+                        </figure>
+                        <img src="~/images//index/platform/img-02.png" alt="image-description">
+                        <div class="tu-resultperson">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path d="M7 10l5 5 5-5z" />
+                            </svg>
+                            <h6>Founder & CEO</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PLATFORM END -->
+    <!-- COUNTER START -->
+    <section>
+        <div class="tu-statsholder">
+            <div class="container">
+                <ul id="tu-counter" class="tu-stats">
+                    <li>
+                        <img src="~/images//stats/img-01.png" alt="img">
+                        <div class="tu-stats_info">
+                            <h4><span data-from="0" data-to="560616" data-speed="8000" data-refresh-interval="50">560,616</span></h4>
+                            <p>Courses available for verified and top tutors</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="~/images//stats/img-02.png" alt="img">
+                        <div class="tu-stats_info">
+                            <h4><span data-from="0" data-to="648482" data-speed="8000" data-refresh-interval="50">648,482</span></h4>
+                            <p>Total tuition job posted on the platform till date</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="~/images//stats/img-03.png" alt="img">
+                        <div class="tu-stats_info">
+                            <h4><span data-from="0" data-to="20" data-speed="8000" data-refresh-interval="50">20</span>+ Hours</h4>
+                            <p>User daily average time spent on the platform</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="~/images//stats/img-04.png" alt="img">
+                        <div class="tu-stats_info">
+                            <h4><span data-from="0" data-to="7" data-speed="8000" data-refresh-interval="50">7</span>+ Million</h4>
+                            <p>Active instructor and students available on the platform</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- COUNTER END -->
+    <!-- INSTRUCTOR START -->
+    <section class="tu-main-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="tu-maintitle text-center">
+                        <img src="~/images//zigzag-line.svg" alt="img">
+                        <h4>Our featured instructors</h4>
+                        <h2>Every instructor is professional and highly qualified</h2>
+                        <p>Accusamus et iusidio dignissimos ducimus blanditiis praesentium voluptatum deleniti atque corrupti quos dolores etmquasa molestias epturi sint occaecati cupiditate non providente mikume molareshe.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tu-featurelist" class="splide tu-featurelist  tu-splidedots ">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="tu-featureitem">
+                                <figure>
+                                    <a asp-controller="Home" asp-action="TutorDetails"><img src="~/images//index/qualified/img-01.jpg" alt="image-description"></a>
+                                    <span class="tu-featuretag">FEATURED</span>
+                                </figure>
+                                <div class="tu-authorinfo">
+                                    <div class="tu-authordetail">
+                                        <figure>
+                                            <img src="~/images//index/professionol/img-01.jpg" alt="image-description">
+                                        </figure>
+                                        <div class="tu-authorname">
+                                            <h5><a asp-controller="Home" asp-action="TutorDetails"> Dwayne Garrett</a>  <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i></h5>
+                                            <span>Arlington, TN</span>
+                                        </div>
+                                        <ul class="tu-authorlist">
+                                            <li>
+                                                <span>Starting from:<em>$893.30/hr</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Mobile:<em>xxx-xxxxx-33</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Whatsapp:<em>xxx-xxxxx-11</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Qualification:<em>B.Tech/B.E.</em></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tu-instructors_footer">
+                                        <div class="tu-rating">
+                                            <i class="fas fa-star"></i>
+                                            <h6>5.0</h6>
+                                            <span>(66,951)</span>
+                                        </div>
+                                        <div class="tu-instructors_footer-right">
+                                            <a href="javascript:void(0);"><i class="icon icon-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="tu-featureitem">
+                                <figure>
+                                    <a href="tutor-detail.html"><img src="~/images//index/qualified/img-02.jpg" alt="image-description"></a>
+                                    <span class="tu-featuretag">FEATURED</span>
+                                </figure>
+                                <div class="tu-authorinfo">
+                                    <div class="tu-authordetail">
+                                        <figure>
+                                            <img src="~/images//index/professionol/img-02.jpg" alt="image-description">
+                                        </figure>
+                                        <div class="tu-authorname">
+                                            <h5><a asp-controller="Home" asp-action="TutorDetails">Gwendolyn Parker</a> <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i></h5>
+                                            <span>Las Vegas, TN</span>
+                                        </div>
+                                        <ul class="tu-authorlist">
+                                            <li>
+                                                <span>Starting from:<em>$1,385.10/hr</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Mobile:<em>xxx-xxxxx-11</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Whatsapp:<em>xxx-xxxxx-80</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Qualification:<em>B.Tech/B.E.</em></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tu-instructors_footer">
+                                        <div class="tu-rating">
+                                            <i class="fas fa-star"></i>
+                                            <h6>5.0</h6>
+                                            <span>(38,494)</span>
+                                        </div>
+                                        <div class="tu-instructors_footer-right">
+                                            <a href="javascript:void(0);"><i class="icon icon-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="tu-featureitem">
+                                <figure>
+                                    <a href="tutor-detail.html"><img src="~/images//index/qualified/img-03.jpg" alt="image-description"></a>
+                                    <span class="tu-featuretag">FEATURED</span>
+                                </figure>
+                                <div class="tu-authorinfo">
+                                    <div class="tu-authordetail">
+                                        <figure>
+                                            <img src="~/images//index/professionol/img-03.jpg" alt="image-description">
+                                        </figure>
+                                        <div class="tu-authorname">
+                                            <h5> <a asp-controller="Home" asp-action="TutorDetails"> Glen Burns</a> <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i></h5>
+                                            <span>Chicago, OH</span>
+                                        </div>
+                                        <ul class="tu-authorlist">
+                                            <li>
+                                                <span>Starting from:<em>$1,336.83/hr</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Mobile:<em>xxx-xxxxx-11</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Whatsapp:<em>xxx-xxxxx-46</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Qualification:<em>B.Tech/B.E.</em></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tu-instructors_footer">
+                                        <div class="tu-rating">
+                                            <i class="fas fa-star"></i>
+                                            <h6>5.0</h6>
+                                            <span>(47,044)</span>
+                                        </div>
+                                        <div class="tu-instructors_footer-right">
+                                            <a href="javascript:void(0);"><i class="icon icon-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="tu-featureitem">
+                                <figure>
+                                    <a asp-controller="Home" asp-action="TutorDetails"><img src="~/images//index/qualified/img-04.jpg" alt="image-description"></a>
+                                    <span class="tu-featuretag">FEATURED</span>
+                                </figure>
+                                <div class="tu-authorinfo">
+                                    <div class="tu-authordetail">
+                                        <figure>
+                                            <img src="~/images//index/professionol/img-04.jpg" alt="image-description">
+                                        </figure>
+                                        <div class="tu-authorname">
+                                            <h5><a asp-controller="Home" asp-action="TutorDetails"> William Williams</a> <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i></h5>
+                                            <span>Nashville, IL</span>
+                                        </div>
+                                        <ul class="tu-authorlist">
+                                            <li>
+                                                <span>Starting from:<em>$1,198.12/hr</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Mobile:<em>xxx-xxxxx-54</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Whatsapp:<em>xxx-xxxxx-88</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Qualification:<em>B.Tech/B.E.</em></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tu-instructors_footer">
+                                        <div class="tu-rating">
+                                            <i class="fas fa-star"></i>
+                                            <h6>5.0</h6>
+                                            <span>(57,282)</span>
+                                        </div>
+                                        <div class="tu-instructors_footer-right">
+                                            <a href="javascript:void(0);"><i class="icon icon-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="tu-featureitem">
+                                <figure>
+                                    <a asp-controller="Home" asp-action="TutorDetails"><img src="~/images//index/qualified/img-01.jpg" alt="image-description"></a>
+                                    <span class="tu-featuretag">FEATURED</span>
+                                </figure>
+                                <div class="tu-authorinfo">
+                                    <div class="tu-authordetail">
+                                        <figure>
+                                            <img src="~/images//index/professionol/img-01.jpg" alt="image-description">
+                                        </figure>
+                                        <div class="tu-authorname">
+                                            <h5><a asp-controller="Home" asp-action="TutorDetails"> Dwayne Garrett</a> <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i></h5>
+                                            <span>Arlington, TN</span>
+                                        </div>
+                                        <ul class="tu-authorlist">
+                                            <li>
+                                                <span>Starting from:<em>$893.30/hr</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Mobile:<em>xxx-xxxxx-33</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Whatsapp:<em>xxx-xxxxx-11</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Qualification:<em>B.Tech/B.E.</em></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tu-instructors_footer">
+                                        <div class="tu-rating">
+                                            <i class="fas fa-star"></i>
+                                            <h6>5.0</h6>
+                                            <span>(4,448)</span>
+                                        </div>
+                                        <div class="tu-instructors_footer-right">
+                                            <a href="javascript:void(0);"><i class="icon icon-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="tu-featureitem">
+                                <figure>
+                                    <a asp-controller="Home" asp-action="TutorDetails"><img src="~/images//index/qualified/img-02.jpg" alt="image-description"></a>
+                                    <span class="tu-featuretag">FEATURED</span>
+                                </figure>
+                                <div class="tu-authorinfo">
+                                    <div class="tu-authordetail">
+                                        <figure>
+                                            <img src="~/images//index/professionol/img-02.jpg" alt="image-description">
+                                        </figure>
+                                        <div class="tu-authorname">
+                                            <h5><a asp-controller="Home" asp-action="TutorDetails"> Dwayne Garrett</a>  <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i></h5>
+                                            <span>Arlington, TN</span>
+                                        </div>
+                                        <ul class="tu-authorlist">
+                                            <li>
+                                                <span>Starting from:<em>$1,385.10/hr</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Mobile:<em>xxx-xxxxx-11</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Whatsapp:<em>xxx-xxxxx-80</em></span>
+                                            </li>
+                                            <li>
+                                                <span>Qualification:<em>B.Tech/B.E.</em></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tu-instructors_footer">
+                                        <div class="tu-rating">
+                                            <i class="fas fa-star"></i>
+                                            <h6>5.0</h6>
+                                            <span>(57,282)</span>
+                                        </div>
+                                        <div class="tu-instructors_footer-right">
+                                            <a href="javascript:void(0);"><i class="icon icon-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tu-mainbtn">
+                <a href="search-listing.html" class="tu-primbtn-lg"><span>Explore all instructors</span><i class="icon icon-chevron-right"></i></a>
+            </div>
+        </div>
+    </section>
+    <!-- INSTRUCTOR END -->
+    <!-- SUCCESS START -->
+    <section id="tu-sucesstorsection">
+        <div class="tu-success-stories">
+            <div class="container">
+                <div class="tu-sucesstor_pattren">
+                    <img src="~/images//index/success_stories/pattren.svg" alt="img">
+                </div>
+                <div class="row tu-sucesstorslider_title">
+                    <div class="col-lg-8">
+                        <div class="tu-maintitle">
+                            <h2>See how our visitors & members made their <span>#Success Stories</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div id="tu-sucesstorslider" class="splide tu-sucesstorslider tu-splidearrow">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <li class="splide__slide">
+                                <div class="tu-sucesstor">
+                                    <div class="tu-sucesstor_img">
+                                        <figure>
+                                            <img src="~/images//index/success_stories/img-01.jpg" alt="img">
+                                            <figcaption><img src="~/images//index/success_stories/comma.svg" alt="img"></figcaption>
+                                        </figure>
+                                    </div>
+                                    <div class="tu-sucesstor_title">
+                                        <h3>I highly recommend this platform, amazing experience with fast delivery</h3>
+                                        <blockquote>“ Their teaching method is conceptual, motivating and friendly. I can clear my doubt any time. They have very deep knowledge of subject and exam pattern, with all the guidance of their tutos, I scored 98% in Mathematics and 96% in Physics. And yet qualified in IIT MAINS with 12th rank. ”</blockquote>
+                                        <h4>
+                                            Leonard Sullivan
+                                            <span>2nd Standard, Manchester UK</span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="tu-sucesstor">
+                                    <div class="tu-sucesstor_img">
+                                        <figure>
+                                            <img src="~/images//index/success_stories/img-02.jpg" alt="img">
+                                            <figcaption><img src="~/images//index/success_stories/comma.svg" alt="img"></figcaption>
+                                        </figure>
+                                    </div>
+                                    <div class="tu-sucesstor_title">
+                                        <h3>I highly recommend this platform, amazing experience with fast delivery</h3>
+                                        <blockquote>“ Their teaching method is conceptual, motivating and friendly. I can clear my doubt any time. They have very deep knowledge of subject and exam pattern, with all the guidance of their tutos, I scored 98% in Mathematics and 96% in Physics. And yet qualified in IIT MAINS with 12th rank. ”</blockquote>
+                                        <h4>
+                                            Deanna Griffin
+                                            <span>2nd Standard, Manchester UK</span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="tu-sucesstor">
+                                    <div class="tu-sucesstor_img">
+                                        <figure>
+                                            <img src="~/images//index/success_stories/img-03.jpg" alt="img">
+                                            <figcaption><img src="~/images//index/success_stories/comma.svg" alt="img"></figcaption>
+                                        </figure>
+                                    </div>
+                                    <div class="tu-sucesstor_title">
+                                        <h3>I highly recommend this platform, amazing experience with fast delivery</h3>
+                                        <blockquote>“ Their teaching method is conceptual, motivating and friendly. I can clear my doubt any time. They have very deep knowledge of subject and exam pattern, with all the guidance of their tutos, I scored 98% in Mathematics and 96% in Physics. And yet qualified in IIT MAINS with 12th rank. ”</blockquote>
+                                        <h4>
+                                            Bruce Mccarthy
+                                            <span>2nd Standard, Manchester UK</span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="tu-sucesstor">
+                                    <div class="tu-sucesstor_img">
+                                        <figure>
+                                            <img src="~/images//index/success_stories/img-04.jpg" alt="img">
+                                            <figcaption><img src="~/images//index/success_stories/comma.svg" alt="img"></figcaption>
+                                        </figure>
+                                    </div>
+                                    <div class="tu-sucesstor_title">
+                                        <h3>I highly recommend this platform, amazing experience with fast delivery</h3>
+                                        <blockquote>“ Their teaching method is conceptual, motivating and friendly. I can clear my doubt any time. They have very deep knowledge of subject and exam pattern, with all the guidance of their tutos, I scored 98% in Mathematics and 96% in Physics. And yet qualified in IIT MAINS with 12th rank. ”</blockquote>
+                                        <h4>
+                                            Evelyn Mccoy
+                                            <span>2nd Standard, Manchester UK</span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="tu-sucesstor">
+                                    <div class="tu-sucesstor_img">
+                                        <figure>
+                                            <img src="~/images//index/success_stories/img-05.jpg" alt="img">
+                                            <figcaption><img src="~/images//index/success_stories/comma.svg" alt="img"></figcaption>
+                                        </figure>
+                                    </div>
+                                    <div class="tu-sucesstor_title">
+                                        <h3>I highly recommend this platform, amazing experience with fast delivery</h3>
+                                        <blockquote>“ Their teaching method is conceptual, motivating and friendly. I can clear my doubt any time. They have very deep knowledge of subject and exam pattern, with all the guidance of their tutos, I scored 98% in Mathematics and 96% in Physics. And yet qualified in IIT MAINS with 12th rank. ”</blockquote>
+                                        <h4>
+                                            Frederick Hicks
+                                            <span>2nd Standard, Manchester UK</span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SUCCESS END -->
+    <!-- CATEGORIES START -->
+    <section class="tu-main-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="tu-maintitle text-center">
+                        <img src="~/images//zigzag-line.svg" alt="img">
+                        <h4>Let’s make a quick start today</h4>
+                        <h2>Choose from the top visited categories you may like</h2>
+                        <p>Accusamus et iusidio dignissimos ducimus blanditiis praesentium voluptatum deleniti atque corrupti quos dolores etmquasa molestias epturi sint occaecati cupiditate non providente mikume molareshe.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tu-categoriesslider" class="splide tu-categoriesslider tu-splidedots">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-09.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>Music learning</h6>
+                                    <span>6,301 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-10.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>Computer &amp; hardware</h6>
+                                    <span>4,329 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-11.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>Beauty learning</h6>
+                                    <span>6,406 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-12.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>IT &amp; development</h6>
+                                    <span>5,925 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-13.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>Islamic education</h6>
+                                    <span>4,157 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-09.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>Music learning</h6>
+                                    <span>6,301 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-10.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>Computer &amp; hardware</h6>
+                                    <span>4,329 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-11.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>Beauty learning</h6>
+                                    <span>6,406 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-12.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>IT &amp; development</h6>
+                                    <span>5,925 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="splide__slide">
+                            <a class="tu-categories_content" href="search-listing-two.html">
+                                <img src="~/images//index/categories/img-13.jpg" alt="img">
+                                <div class="tu-categories_title">
+                                    <h6>Islamic education</h6>
+                                    <span>4,157 Listings</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tu-mainbtn">
+                <a href="search-listing-two.html" class="tu-primbtn-lg"><span>Explore All categories</span><i class="icon icon-chevron-right"></i></a>
+            </div>
+        </div>
+    </section>
+    <!-- CATEGORIES END -->
+</main>
+@section Scripts
+{
+    <script src="~/js/tutor.js"></script>
+}

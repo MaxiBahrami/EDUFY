@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "UpcomingBookings";
+    Layout = "~/Views/shared/_Layout.cshtml";
+    ViewBag.IncludeDefaultScripts = false;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <br />
+            <div id="bootstrapModalFullCalendar"></div>
+        </div>
+    </div>
+</div>
+<div id="fullCalModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modalTitle" class="modal-title"></h4>
+                <button type="button" onclick="closePopup('fullCalModal')">
+                    <span aria-hidden="true">x</span><span class="sr-only">close</span>
+                </button>
+              
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="closePopup('fullCalModal')">Close</button>
+                @* <a class="btn btn-primary" id="eventUrl" target="_blank">Event Page</a> *@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#bootstrapModalFullCalendar').fullCalendar({
+                header: {
+                    left: '',
+                    center: 'prev title next',
+                    right: ''
+                },
+                eventClick: function (event, jsEvent, view) {
+                    $('#modalTitle').html(event.title);
+                    $('#modalBody').html(event.description);
+                    $('#eventUrl').attr('href', event.url);
+                    $('#fullCalModal').modal('show');
+                    return false;
+                },
+                events: '/Tutor/GetUpcomingBookingsData'
+            });
+        });
+    </script>
+}
+
+

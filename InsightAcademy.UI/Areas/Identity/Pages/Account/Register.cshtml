@@ -1,0 +1,259 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>InsightAcdemy</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="~/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="~/css/feather.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/fontawesome/fontawesome.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/select2.min.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/splide.min.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/main.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/jquery.mCustomScrollbar.min.css">
+
+
+</head>
+<body>
+    <partial name="_Header"></partial>
+    <div class="tu-main-login">
+        <div class="tu-login-left">
+            <strong>
+                <a href="/"><img src="/images/login/logo_white.png" alt="images"></a>
+            </strong>
+            <figure>
+                <img src="/images/login/img-01.png" alt="images">
+            </figure>
+            <div class="tu-login-left_title">
+                <h2>Yes! we’re making progress</h2>
+                <span>every minute & every second</span>
+            </div>
+        </div>
+        <div class="tu-login-right">
+            <div class="tu-login-right_title">
+                <h2>Welcome!</h2>
+                <h3>It’s really nice to see you</h3>
+            </div>
+
+            <form class="tu-themeform tu-login-form signupform" asp-route-returnUrl="@Model.ReturnUrl" enctype="multipart/form-data" method="post">
+                <fieldset>
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div class="tu-themeform__wrap">
+                        <div class="form-group-wrap">
+                            <div class="form-group">
+                                <!-- Profile Image -->
+                                <label>Profile Image</label>
+                                <input id="profilepic" type="file" class="form-control" placeholder="Profile Image" asp-for="Input.ProfileImage" accept=".png, .jpg, .jpeg">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <img id="profileimage" class="img-thumbnail" style="max-width: 100%; max-height: 150%;" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>First Name <span style="color:red">*</span></label>
+                                <input asp-for="Input.FirstName" type="text" class="form-control" placeholder="Enter first name">
+                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name <span style="color:red">*</span></label>
+                                <input asp-for="Input.LastName" type="text" class="form-control" placeholder="Enter last name">
+                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Email <span style="color:red">*</span></label>
+                                <input id="useremail" asp-for="Input.Email" type="email" class="form-control" placeholder="Enter email">
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Gender <span style="color:red">*</span></label>
+                                <select class="form-select" asp-for="Input.Gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group">
+                                <label>Password <span style="color:red">*</span></label>
+                                <div class="input-group">
+                                    <input id="userpassword" type="password" asp-for="Input.Password" class="form-control" placeholder="Enter password">
+                                    
+                                        <div class="input-group-text" onclick="togglePasswordVisibility(this, 'userpassword')">
+                                        <i class="fa fa-fw fa-eye field-icon toggle-password fa-eye-slash"></i>
+                                       
+                                    </div>
+                                </div>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password <span style="color:red">*</span></label>
+                                <div class="input-group">
+                                    <input id="confirmUserPassword" type="password" asp-for="Input.ConfirmPassword" class="form-control" placeholder="Enter confirm password">
+                                  
+                                        <div class="input-group-text" onclick="togglePasswordVisibility(this, 'confirmUserPassword')">
+                                        <i class="fa fa-fw fa-eye field-icon toggle-password fa-eye-slash"></i>
+                                        </div>
+                                   
+                                </div>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+
+                            <!-- Role -->
+
+                            <div class="form-group">
+                                <label>Role <span style="color:red">*</span></label>
+                                <select class="form-select" asp-for="Input.Role">
+                                    <option value="">Select Role</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Teacher">Teacher</option>
+                                </select>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="form-group">
+
+                                <label>Phone (Optional)</label>
+                                <input type="text" class="form-control" asp-for="Input.Phone" placeholder="Enter phone" />
+
+                            </div>
+                            <!-- Website -->
+                            <div class="form-group">
+                                <label>Website (Optional)</label>
+                                <input type="text" class="form-control" asp-for="Input.Website" placeholder="Enter website">
+
+                            </div>
+                            <div class="form-group">
+                                <label>Street Address (Optional)</label>
+                                <input type="text" class="form-control" placeholder="Enter street address">
+
+                            </div>
+                       
+                            
+                            <!-- Country -->
+                            <div class="form-group">
+                                <label for="Country">Country (Optional)</label>
+                                <select id="countryDropdown" class="form-control countryDropdown js-example-basic-single" asp-for="Input.Country" onchange="getCitiesByCountryId(this.value)">
+                                   
+                                    <option value="">-- Select Country --</option>
+                                   
+                                </select>
+                            </div>
+                          
+                            <div class="form-group">
+                                <label >City (Optional)</label>
+                                <div class="tu-select">
+                                    <select asp-for="Input.City" data-placeholder="Select city" data-placeholderinput="Select city" class="form-control" id="ddlcity">
+                                        <option label="Select City from list"></option>
+                               
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <dnt-captcha asp-captcha-generator-max="999999"
+                                             asp-captcha-generator-min="111111"
+                                             asp-captcha-generator-language="English"
+                                             asp-captcha-generator-display-mode="ShowDigits"
+                                             asp-use-relative-urls="true"
+                                             asp-placeholder="Enter Captcha"
+                                             asp-validation-error-message="Please enter the security code."
+                                             asp-font-name="Tahoma"
+                                             asp-font-size="30"
+                                             asp-fore-color="#333333"
+                                             asp-back-color="#ccc"
+                                             asp-text-box-class="text-box form-control"
+                                             asp-text-box-template="<span class='input-group-prepend'><span class='form-group-text'></span></span>{0}"
+                                             asp-validation-message-class="text-danger"
+                                             asp-refresh-button-class="fas fa-redo btn-sm"
+                                             asp-use-noise="false" />
+
+                                @if (TempData["captchaError"] != null)
+                                {
+                                    <span class="text-danger alert alert-danger">@TempData["captchaError"]</span>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <div class="tu-check tu-signup-check">
+                                    <input type="checkbox" id="expcheck2" name="expcheck" onchange="onChange(this)">
+                                    <label for="expcheck2"><span>I have read and agree to all <a href="javascript:void(0);">Terms &amp; conditions</a></span></label>
+                                </div>
+                            </div>
+                            <!-- Join Button -->
+                            <div class="form-group">
+                                <button class="tu-primbtn-lg" id="join-btn" disabled type="submit"><span>Join now</span><i class="icon icon-arrow-right"></i></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                article
+                                about setting up this ASP.NET application to support logging in via external services
+                            </a>.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins!)
+                                {
+                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"> <img src="/images/google.png" alt="images">Sign in with Google</button>
+
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="/js/vendor/jquery.min.js"></script>
+<script src="/js/vendor/popper-core.js"></script>
+<script src="/js/vendor/bootstrap.min.js"></script>
+<script src="/js/vendor/appear.js"></script>
+<script src="/js/vendor/countTo.js"></script>
+<script src="/js/vendor/splide.min.js"></script>
+<script src="/js/vendor/select2.min.js"></script>
+<script src="/js/vendor/tippy.js"></script>
+<script src="/js/vendor/typed.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/site.js"></script>
+<script src="~/js/location.js"></script>
+<partial name="_ValidationScriptsPartial" />
+<script>
+    function onChange(checkbox) {
+        if (checkbox.checked) {
+            $('#join-btn').removeAttr('disabled')
+        }
+        else {
+            $('#join-btn').attr('disabled', true);
+        }
+    }
+  
+</script>
+
