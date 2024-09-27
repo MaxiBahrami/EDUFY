@@ -1,10 +1,5 @@
 ﻿<!doctype html>
-<!--[if lt IE 7]>       <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>          <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>          <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js" lang="zxx">
-<!--<![endif]-->
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="icon" href="~/images/logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="~/css/bootstrap.min.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css"> 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <link rel="stylesheet" href="~/css/feather.css"> <!-- Adjust path if necessary -->
-    <link rel="stylesheet" href="~/css/fontawesome/fontawesome.css"> <!-- Adjust path if necessary -->
-    <link rel="stylesheet" href="~/css/select2.min.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/feather.css"> 
+    <link rel="stylesheet" href="~/css/fontawesome/fontawesome.css"> 
+    <link rel="stylesheet" href="~/css/select2.min.css"> 
     <link rel="stylesheet" href="/css/nouislider.min.css">
-    <link rel="stylesheet" href="~/css/splide.min.css"> <!-- Adjust path if necessary -->
-    <link rel="stylesheet" href="~/css/main.css"> <!-- Adjust path if necessary -->
+    <link rel="stylesheet" href="~/css/splide.min.css"> 
+    <link rel="stylesheet" href="~/css/main.css"> 
     <link rel="stylesheet" href="/css/venobox.min.css">
     <link rel="stylesheet" href="~/css/jquery.mCustomScrollbar.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.css" type="text/css" rel="stylesheet" />
@@ -31,251 +26,76 @@
      <div class="loader-overlay" style="display:none" id="loader">
         <div class="loader"></div>
     </div>
-    <!-- Preloader Start -->
-    <div class="tu-preloader">
-        <div class="tu-preloader_holder">
-            <img src="/images/favicon.png" alt="laoder img">
-            <div class="tu-loader"></div>
-        </div>
-    </div> 
-    <!-- Preloader End -->
+    
+
     <!-- HEADER START -->
     <partial name="_Header"></partial>
-   @*  <header class="tu-header">
-        <nav class="navbar navbar-expand-xl tu-navbar">
-            <div class="container-fluid">
-                <strong>
-                    <a class="navbar-brand" href="index.html"><img src="/images/logo.png" alt="Logo"></a>
-                </strong>
-                <button class="tu-menu" aria-label="Main Menu" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse">
-                    <i class="icon icon-menu"></i>
-                </button>
-                <div class="collapse navbar-collapse tu-themenav" id="navbarSupportedContent">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Home/SearchListing">
-                                Online classes
-                                <span class="tu-tag">NEW</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="SearchListing">Learning material<span class="tu-tag tu-bggreen">FREE</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#tu-sucesstorsection">Success stories</a>
-                        </li>
-                        <li class="menu-item-has-children nav-item">
-                            <a class="active" href="javascript:void(0);">Pages</a>
-                            <ul class="sub-menu">
-                                <li class="menu-item-has-children">
-                                    <a href="javascript:void(0)">Home Pages</a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="index.html">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="index-without-login.html">Home v2 <em class="tu-menutag">without login</em></a>
-                                        </li>
-                                        <li>
-                                            <a href="indexv2.html">Home v3</a>
-                                        </li>
-                                        <li>
-                                            <a href="indexv3.html">Home v4</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children">
-                                    <a href="javascript:void(0)">Provider listings</a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="search-listing.html">Provider listings v1</a>
-                                        </li>
-                                        <li>
-                                            <a href="search-listing-two.html">Provider listings v2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="tutor-detail.html">Tutor Detail</a>
-                                </li>
-                                <li class="menu-item-has-children">
-                                    <a href="javascript:void(0);">Blogs</a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="blog-grid-left.html">Blog list</a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-grid-right.html">Blog list <em class="tu-menutag">Right sidebar</em></a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-detail-left.html">Blog detail</a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-detail-right.html">Blog detail <em class="tu-menutag">Right sidebar</em></a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children">
-                                    <a href="javascript:void(0);">Other pages</a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="how-it-work.html">How it work</a>
-                                        </li>
-                                        <li>
-                                            <a href="package.html">Packges</a>
-                                        </li>
-                                        <li>
-                                            <a href="login.html">Login</a>
-                                        </li>
-                                        <li>
-                                            <a href="signup.html">Sign up</a>
-                                        </li>
-                                        <li>
-                                            <a href="lost-password.html">Lost password</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <ul class="nav-item tu-afterlogin">
-                    <li>
-                        <a class="nav-link" href="index.html"><span class="icon icon-message-square"><i class="tu-messagenoti">4</i></span></a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="index.html"><span class="icon icon-bell"><i class="tu-messagenoti">3</i></span></a>
-                    </li>
-                  @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="menu-item-has-children">
-                            <strong><a class="nav-link" href="javascript:void(0);"><img src="images/login.png" alt="image-description"></a></strong>
-                            <ul class="sub-menu">
-                                <li>
-                                    <a href="profile-setting-a.html"><i class="icon icon-user"></i>Personal details</a>
-                                </li>
-                                <li>
-                                    <a href="profile-setting-b.html"><i class="icon icon-phone"></i>Contact details</a>
-                                </li>
-                                <li>
-                                    <a href="profile-setting-c.html"><i class="icon icon-book"></i>Education</a>
-                                </li>
-                                <li>
-                                    <a href="profile-setting-d.html"><i class="icon icon-book-open"></i>Subjects I can teach</a>
-                                </li>
-                                <li>
-                                    <a href="profile-setting-e.html"><i class="icon icon-image"></i>Media gallery</a>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <partial name="_LoginPartial"></partial>
-                    }
-                </ul>
-            </div>
-        </nav>
-    </header> *@
-    <!-- HEADER END -->
     <div role="main" class="page-content">
         @RenderBody()
     </div>
     <!-- MAIN END -->
+
     <!-- FOOTER START -->
     <footer>
         <div class="tu-footer">
             <div class="container">
                 <div class="tu-footer_maintitle">
-                    <h5>Explore from our huge collection</h5>
-                    <h3>Approach tutors near to your house</h3>
+                    <h3>Explore all our courses and enjoy learning</h3>
+                    <h5>Here are some of our courses we picked for you</h5>
                 </div>
                 <div class="row tu-footer_row">
+                    
                     <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h5 class="tu-footertitle">Tutors in Atlanta</h5>
+                        <h5 class="tu-footertitle">Languages</h5>
                         <ul class="tu-footerlist">
-                            <li><a href="search-listing.html">B.Tech IT</a></li>
-                            <li><a href="search-listing.html">B.Tech Chemical</a></li>
-                            <li><a href="search-listing.html">B.Tech Petroleum</a></li>
-                            <li><a href="search-listing.html">B.Tech Ceramic</a></li>
-                            <li><a href="search-listing.html">B.Tech Production</a></li>
+                            <li><a href="https://edufy.education/tutor/list?category=ebf84c84-5025-49c2-22fe-08dc8af801b8&subject=">English</a></li>
+                            <li><a href="https://edufy.education/tutor/list?category=9b1c158d-add7-43a2-3847-08dcd7d77883&subject=">French</a></li>
+                            <li><a href="https://edufy.education/tutor/list?category=5c186fbb-f875-4f44-3848-08dcd7d77883&subject=">Spanish</a></li>
+                            <li><a href="https://edufy.education/tutor/list?category=9c40ef5e-1a57-4596-3849-08dcd7d77883&subject=">Swedish</a></li>
+                            <li><a href="https://edufy.education/tutor/list?category=64953e79-4ed2-44af-384a-08dcd7d77883&subject=">German</a></li>
+                            <li class="tu-footerlist-explore"><a href="https://edufy.education/tutor/list?category=8f234dc3-96ad-42a1-22fc-08dc8af801b8&subject=">Explore all</a></li>
+                        </ul>
+                    </div>
+
+    
+                    <!-- IT Footer courses -->
+
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <h5 class="tu-footertitle">IT</h5>
+                        <ul class="tu-footerlist">
+                            <li><a href="search-listing.html">Programming</a></li>
+                            <li><a href="search-listing.html">Web Developement</a></li>
+                            <li><a href="search-listing.html">Python</a></li>
+                            <li><a href="search-listing.html">C#</a></li>
+                            <li><a href="search-listing.html">JavaScript</a></li>
                             <li class="tu-footerlist-explore"><a href="search-listing.html">Explore all</a></li>
                         </ul>
                     </div>
+
+
+                    <!-- Music Footer courses -->
                     <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h5 class="tu-footertitle">Tutors in Atlanta</h5>
+                        <h5 class="tu-footertitle">Music</h5>
                         <ul class="tu-footerlist">
-                            <li><a href="search-listing.html">B.Tech Robotics</a></li>
-                            <li><a href="search-listing.html">B.Tech Industrial</a></li>
-                            <li><a href="search-listing.html">B.Tech Biotech</a></li>
-                            <li><a href="search-listing.html">B.Tech Communications</a></li>
-                            <li><a href="search-listing.html">B.Tech Civil</a></li>
+                            <li><a href="search-listing.html">Guitar</a></li>
+                            <li><a href="search-listing.html">Violin</a></li>
+                            <li><a href="search-listing.html">Piano</a></li>
+                            <li><a href="search-listing.html">Vocal coaches</a></li>
+                            <li><a href="search-listing.html">Flute</a></li>
                             <li class="tu-footerlist-explore"><a href="search-listing.html">Explore all</a></li>
                         </ul>
                     </div>
+                    
+                    <!-- Academic Footer courses -->
+
                     <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h5 class="tu-footertitle">Tutors in Tulsa</h5>
+                        <h5 class="tu-footertitle">Academic</h5>
                         <ul class="tu-footerlist">
-                            <li><a href="search-listing.html">B.Tech Ceramic</a></li>
-                            <li><a href="search-listing.html">B.Tech Mechatronics</a></li>
-                            <li><a href="search-listing.html">B.Tech Aerospace</a></li>
-                            <li><a href="search-listing.html">B.Tech Mechatronics</a></li>
-                            <li><a href="search-listing.html">B.Tech Power</a></li>
-                            <li class="tu-footerlist-explore"><a href="search-listing.html">Explore all</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h5 class="tu-footertitle">Tutors in Oklahoma City</h5>
-                        <ul class="tu-footerlist">
-                            <li><a href="search-listing.html">B.Tech Ceramic</a></li>
-                            <li><a href="search-listing.html">B.Tech Aeronautical</a></li>
-                            <li><a href="search-listing.html">B.Tech Communications</a></li>
-                            <li><a href="search-listing.html">B.Tech Electrical</a></li>
-                            <li><a href="search-listing.html">Content writing</a></li>
-                            <li class="tu-footerlist-explore"><a href="search-listing.html">Explore all</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h5 class="tu-footertitle">Tutors in Virginia Beach</h5>
-                        <ul class="tu-footerlist">
-                            <li><a href="search-listing.html">B.Tech Environmental</a></li>
-                            <li><a href="search-listing.html">B.Tech Mech</a></li>
-                            <li><a href="search-listing.html">B.Tech Robotics</a></li>
-                            <li><a href="search-listing.html">B.Tech Transportation</a></li>
-                            <li><a href="search-listing.html">B.Tech Marine</a></li>
-                            <li class="tu-footerlist-explore"><a href="search-listing.html">Explore all</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h5 class="tu-footertitle">Tutors in San Francisco</h5>
-                        <ul class="tu-footerlist">
-                            <li><a href="search-listing.html">B.Tech Marine</a></li>
-                            <li><a href="search-listing.html">B.Tech Environmental</a></li>
-                            <li><a href="search-listing.html">B.Tech Textile</a></li>
-                            <li><a href="search-listing.html">B.Tech ECE</a></li>
-                            <li><a href="search-listing.html">B.Tech CSE</a></li>
-                            <li class="tu-footerlist-explore"><a href="search-listing.html">Explore all</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h5 class="tu-footertitle">Tutors in Mesa</h5>
-                        <ul class="tu-footerlist">
-                            <li><a href="search-listing.html">B.Tech ECE</a></li>
-                            <li><a href="search-listing.html">B.Tech IT</a></li>
-                            <li><a href="search-listing.html">B.Tech Industrial</a></li>
-                            <li><a href="search-listing.html">B.Tech Aeronautical</a></li>
-                            <li><a href="search-listing.html">B.Tech CSE</a></li>
-                            <li class="tu-footerlist-explore"><a href="search-listing.html">Explore all</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h5 class="tu-footertitle">Tutors in Boston</h5>
-                        <ul class="tu-footerlist">
-                            <li><a href="search-listing.html">B.Tech Petroleum</a></li>
-                            <li><a href="search-listing.html">B.Tech Metallurgical</a></li>
-                            <li><a href="search-listing.html">B.Tech Mining</a></li>
-                            <li><a href="search-listing.html">B.Tech Power</a></li>
-                            <li><a href="search-listing.html">B.Tech Aerospace</a></li>
+                            <li><a href="https://edufy.education/tutor/list?category=f1dda04b-2909-4782-22f9-08dc8af801b8&subject=">Mathematics</a></li>
+                            <li><a href="search-listing.html">Computer Science</a></li>
+                            <li><a href="search-listing.html">History</a></li>
+                            <li><a href="search-listing.html">Chemistry</a></li>
+                            <li><a href="search-listing.html">Physics</a></li>
                             <li class="tu-footerlist-explore"><a href="search-listing.html">Explore all</a></li>
                         </ul>
                     </div>
@@ -286,10 +106,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-7">
-                        <strong class="tu-footerlogo">
-                            <a href="index.html"><img src="images/logo_white.png" alt="Logo"></a>
-                        </strong>
-                        <p class="tu-footerdescription">Accusamus etidio dignissimos ducimus blanditiis praesentium volupta eleniti atquete corrupti quolores etmquasa molestias epturi sinteam occaecati cupiditate non providente mikume molareshe.</p>
+                        <p class="tu-footerdescription">
+                            <bold>EDUFY!</bold><hr style="width: 55px;">Empowering minds through personalized learning – connecting you to the right tutor, at the right time, for a smarter tomorrow.</p>
                         <ul class="tu-socialmedia">
                             <li class="tu-facebookv3"><a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
                             <li class="tu-twitterv3"><a href="https://twitter.com/?lang=en" target="_blank"><i class="fab fa-twitter"></i></a></li>
@@ -301,10 +119,8 @@
                     <div class="col-lg-5">
                         <h5 class="tu-footertitle">Feel free to share your question</h5>
                         <ul class="tu-footerlist tu-footericonlist">
-                            <li><a href="tel:+6287777263549"><i class="icon icon-phone-call"></i><em>+62 877 77263549</em><span>( Mon to Sun 9am - 11pm GMT )</span></a></li>
-                            <li><a href="mailto:hello@youremailid.co.uk"><i class="icon icon-mail"></i><em>hello@youremailid.co.uk</em></a></li>
-                            <li><a href="tel:+681109998263"><i class="icon icon-printer"></i><em>+62 811 09998263</em></a></li>
-                            <li><a href="tel:(+33)775559375"><i class="fab fa-whatsapp"></i><em>(+33)7 75 55 9375</em><span>( Mon to Sun 9am - 11pm GMT )</span></a></li>
+                            <li><a href="tel:+6287777263549"><i class="icon icon-phone-call"></i><em>+46 700057613</em><span>( Mon to Sun 9am - 17pm CEST )</span></a></li>
+                            <li><a href="mailto:info@edufy.education"><i class="icon icon-mail"></i><em>info@edufy.education</em></a>    
                         </ul>
                     </div>
                     <div class="col-12">
@@ -391,7 +207,7 @@
             <div class="tu-footercopyright">
                 <div class="container">
                     <div class="tu-footercopyright_content">
-                        <p>© 1994 - 2022 All Rights Reserved.</p>
+                        <p>© 2024 All Rights Reserved.</p>
                         <ul class="tu-footercopyright_list">
                             <li><a href="how-it-work.html">Careers</a></li>
                             <li><a href="how-it-work.html">Terms of use</a></li>
@@ -404,6 +220,9 @@
         </div>
     </footer>
     <!-- FOOTER END -->
+
+
+
     <!-- Custom Tooltip Render Here -->
     <div class="tu-tippysm">
         <span id="tu-verifed" class="d-none">
@@ -426,13 +245,7 @@
                     <div class="container mt-1">
                         <h2 class="mb-4">Average Rating</h2>
                         <div class="d-flex align-items-center mb-4">
-                            @* <div class="star-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <i class="far fa-star"></i>
-                            </div> *@
+
                             <div class="ml-3">
                                 <h4 class="mb-0" id="avg-rating"></h4>
                             </div>

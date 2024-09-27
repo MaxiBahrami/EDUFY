@@ -5,8 +5,8 @@
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<ApplicationUser> SignInManager;
-
 @inject IUser _user;
+
 @functions {
     public async Task<string> GetUserProfileImage(string userId)
     {
@@ -14,9 +14,25 @@
         return !string.IsNullOrEmpty(profileImage) ? $"/{profileImage}" : "/images/man.png";
     }
 }
+
 <style>
+    /* Apply the font to the entire body */
+    body {
+        font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 16px; /* Base font size */
+    }
+
+    /* Ensure all links have the same font size and font family */
+    a {
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit; /* Keep existing link color */
+        text-decoration: none; /* Remove underline if desired */
+    }
+
+    /* Specific styles for the navigation links */
     .tu-navbar .navbar-collapse .navbar-nav > .nav-item > a {
-        padding: 10px 18px;
+        padding: 18px 15px;
     }
 
         .tu-navbar .navbar-collapse .navbar-nav > .nav-item > a .tu-tag {
@@ -32,16 +48,33 @@
     }
 
     .tu-navbar {
-        padding-top: 15px !important;
+        padding-top: 5px !important;
+    }
+
+    /* Additional styles for better appearance */
+    .nav-link {
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+
+    /* Adjust the brand name styling */
+    .navbar-brand h4 {
+        font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin: 0;
+        color: black;
     }
 </style>
+
 <header class="tu-header">
     <audio id="messageSound" src="/assets/audio/message.mp3" preload="auto"></audio>
     <nav class="navbar navbar-expand-xl tu-navbar">
         <div class="container-fluid">
             <strong>
-                <a class="navbar-brand p-0" @* href="/"><img src="/images/logo.png" alt="Logo" *@>
-                    <h4 style="color:black">EDUFY</h4>
+                <a class="navbar-brand p-0">
+                    <h4>EDUFY</h4>
                 </a>
             </strong>
             <button class="tu-menu" aria-label="Main Menu" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse">
@@ -49,108 +82,38 @@
             </button>
             <div class="collapse navbar-collapse tu-themenav" id="navbarSupportedContent">
                 <ul class="navbar-nav">
-
-
-            
-
                     <li class="nav-item">
                         <a class="nav-link" href="/tutor/list">
                             All Courses
-                            @* <span class="tu-tag">NEW</span> *@
                         </a>
                     </li>
-
-
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="SearchListing">Learning material@* <span class="tu-tag tu-bggreen">FREE</span> *@</a>
+                        <a class="nav-link" asp-controller="Home" asp-action="SearchListing">
+                            Learning Material
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#tu-sucesstorsection">Success stories</a>
-                    </li>
-              @*       <li class="menu-item-has-children nav-item">
-                        <a class="active" href="javascript:void(0);">Pages</a>
-                        <ul class="sub-menu">
-                            <li class="menu-item-has-children">
-                                <a href="javascript:void(0)">Home Pages</a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="index.html">Home</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-without-login.html">Home v2 <em class="tu-menutag">without login</em></a>
-                                    </li>
-                                    <li>
-                                        <a href="indexv2.html">Home v3</a>
-                                    </li>
-                                    <li>
-                                        <a href="indexv3.html">Home v4</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="javascript:void(0)">Provider listings</a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="search-listing.html">Provider listings v1</a>
-                                    </li>
-                                    <li>
-                                        <a href="search-listing-two.html">Provider listings v2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="tutor-detail.html">Tutor Detail</a>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="javascript:void(0);">Blogs</a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="blog-grid-left.html">Blog list</a>
-                                    </li>
-                                    <li>
-                                        <a href="blog-grid-right.html">Blog list <em class="tu-menutag">Right sidebar</em></a>
-                                    </li>
-                                    <li>
-                                        <a href="blog-detail-left.html">Blog detail</a>
-                                    </li>
-                                    <li>
-                                        <a href="blog-detail-right.html">Blog detail <em class="tu-menutag">Right sidebar</em></a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="javascript:void(0);">Other pages</a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="how-it-work.html">How it work</a>
-                                    </li>
-                                    <li>
-                                        <a href="package.html">Packges</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="signup.html">Sign up</a>
-                                    </li>
-                                    <li>
-                                        <a href="lost-password.html">Lost password</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li> *@
                 </ul>
             </div>
             <ul class="nav-item tu-afterlogin">
-                <li>
-                    <a class="nav-link" href="/chat/inbox"><span class="icon icon-message-square"><i class="tu-messagenoti" id="messageCounter"></i></span></a>
-                </li>
-                <li>
-                    <a class="nav-link" href="index.html"><span class="icon icon-bell"><i class="tu-messagenoti">3</i></span></a>
-                </li>
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <!-- Notification and Chat Icons -->
+                    <li>
+                        <a class="nav-link" href="/chat/inbox">
+                            <span class="icon icon-message-square">
+                                <i class="tu-messagenoti" id="messageCounter"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="index.html">
+                            <span class="icon icon-bell">
+                                <i class="tu-messagenoti">3</i>
+                            </span>
+                        </a>
+                    </li>
+
+                    <!-- User Menu -->
                     <li class="menu-item-has-children">
                         <strong>
                             <a class="nav-link" href="javascript:void(0);">
@@ -162,7 +125,7 @@
                         {
                             <ul class="sub-menu">
                                 <li>
-                                    <a href="/Tutor/PersonalDetails"><i class="icon icon-user"></i>Personal details</a>
+                                    <a href="/Tutor/PersonalDetails"><i class="icon icon-user"></i>Personal Details</a>
                                 </li>
                                 <li>
                                     <a href="/Tutor/ContactDetail"><i class="icon icon-phone"></i>Contact</a>
@@ -179,34 +142,24 @@
                                 <li>
                                     <a href="/Tutor/Media"><i class="icon icon-image"></i>Media</a>
                                 </li>
-                                <li class="nav-item">
+                                <li>
                                     <a class="nav-link" asp-controller="WishList" asp-action="MyWishList">
                                         <i class="icon icon-heart"></i>
-                                            Wishlist
-                                        @* <span class="tu-tag">NEW</span> *@
+                                        Wishlist
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li>
                                     <a class="nav-link" asp-controller="Tutor" asp-action="UpcomingBookings">
                                         <i class="icon icon-clock"></i>
                                         Upcoming Bookings
-                                        @* <span class="tu-tag">NEW</span> *@
                                     </a>
                                 </li>
-
-                                <li class="nav-item">
+                                <li>
                                     <a class="nav-link" asp-controller="Like" asp-action="LikeList">
                                         <i class="icon icon-thumbs-up"></i>
-                                            My Likes
-                                        @* <span class="tu-tag">NEW</span> *@
+                                        My Likes
                                     </a>
                                 </li>
-                                @*   <li>
-                        <a href="/Identity/Account/Register"><img src="~/images/register.svg" style="margin-right: 13px;" /> Register</a>
-                        </li>
-                        <li>
-                        <a href="/Identity/Account/Login"><img src="~/images/Login.svg" style="margin-right: 13px;" /> Login</a>
-                        </li> *@
                                 <li>
                                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                                         <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
@@ -214,34 +167,28 @@
                                 </li>
                             </ul>
                         }
-
-                 
                         @if (User.IsInRole(Roles.Student))
                         {
                             <ul class="sub-menu">
                                 <li>
                                     <a href="/Student/Profile"><i class="icon icon-user"></i>Profile</a>
                                 </li>
-                                <li class="nav-item">
+                                <li>
                                     <a class="nav-link" asp-controller="WishList" asp-action="MyWishList">
                                         <i class="icon icon-heart"></i>
                                         Wishlist
-                                        @* <span class="tu-tag">NEW</span> *@
                                     </a>
                                 </li>
-
-                                <li class="nav-item">
+                                <li>
                                     <a class="nav-link" asp-controller="Like" asp-action="LikeList">
                                         <i class="icon icon-thumbs-up"></i>
                                         My Likes
-                                        @* <span class="tu-tag">NEW</span> *@
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li>
                                     <a class="nav-link" asp-controller="Student" asp-action="GetMyBookings">
                                         <i class="icon icon-clock"></i>
                                         My Bookings
-                                        @* <span class="tu-tag">NEW</span> *@
                                     </a>
                                 </li>
                                 <li>
@@ -259,22 +206,19 @@
                                         <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                                     </form>
                                 </li>
-                              
                             </ul>
                         }
-
                     </li>
                 }
-
                 else
                 {
-                    <partial name="_LoginPartial"></partial>
+                    <!-- Login / Register Links -->
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/Identity/Account/Register" style="display: inline; padding: 0;">Register</a> /
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" style="display: inline; padding: 0;">Login</a>
+                    </li>
                 }
             </ul>
         </div>
     </nav>
 </header>
-
-
-
-
