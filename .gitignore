@@ -599,3 +599,4 @@ Release/
 /InsightAcademy.UI/obj/Release/net8.0/InsightAcademy.UI.genruntimeconfig.cache
 /InsightAcademy.UI/obj/Release/net8.0/PubTmp/Out/wwwroot/Identity/lib/jquery-validation/dist/jquery.validate.min.js
 /InsightAcademy.ApplicationLayer/bin/Release/net8.0/InsightAcademy.ApplicationLayer.deps.json
+/InsightAcademy.UI/appsettings.json
