@@ -59,6 +59,7 @@ function getCitiesByCountryId(id) {
         type: 'GET',
         dataType: "json",
         success: function (response) {
+         
             const dropdown = document.getElementById('ddlcity');
             dropdown.innerHTML = '<option value="">Select a city</option>';
             response.forEach(city => {

@@ -27,7 +27,7 @@ namespace InsightAcademy.InfrastructureLayer.Implementation
 
         public async Task<List<DomainLayer.Entities.City>> GetCitiesByCountryId(long Id)
         {
-            var citiesInCountry = await _context.City.Where(x => x.CountryId == Id).OrderBy(z => z.Name).ToListAsync();
+            var citiesInCountry = await _context.City.Where(x => x.CountryId == Id).OrderBy(z => z.Name).AsNoTracking().ToListAsync();
             return citiesInCountry;
         }
 
