@@ -8,6 +8,29 @@
 @inject IGeoService _geoService;
 @model Tutor
 
+<style>
+    
+    .tu-listinginfo_wrapper .tu-listinginfo_price {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .tu-listinginfo_wrapper .session-label {
+        font-size: 1rem;
+        color: #444;
+        font-weight: 500;
+    }
+
+    .tu-listinginfo_wrapper .session-price {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+
+</style>
+
 @if (Model != null)
 {
 
@@ -42,19 +65,25 @@
                         <span class="status-indicator"></span>                  
                     </figure>
                     <div class="tu-listing-heading">
+
                         <h5>
                             <a href="/Tutor/Profile/@Model.Id">
                                 @Model.FullName
                             </a>
-                            @if (!string.IsNullOrEmpty(Model.UserName))
-                            {
-                                <span>&nbsp;@@@Model.UserName</span>
-                            }
                             @if (Model.IsVerified == true)
                             {
                                 <i class="icon icon-check-circle tu-greenclr" data-tippy-trigger="mouseenter" data-tippy-html="#tu-verifed" data-tippy-interactive="true" data-tippy-placement="top"></i>
                             }
                         </h5>
+
+                        @if (!string.IsNullOrEmpty(Model.UserName))
+                        {
+                            <div>
+                                <span>&nbsp;@@@Model.UserName</span>
+                            </div>
+                        }
+
+
                         <div class="tu-listing-location">
                             @{
                                 var city = !string.IsNullOrEmpty(Model.City) ? await _geoService.GetCityById(Convert.ToInt32(Model.City)) : null;
@@ -76,10 +105,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="tu-listinginfo_price">
-                    <span>1 hour session:</span>
-                    <h4>$@Model.HourlyRate/hr</h4>
+
+                <div class="tu-listinginfo_price" style="display: flex; align-items: center; gap: 5px;">
+                    <span class="session-label" style="font-size: 1rem; color: #444; font-weight: 500;">1 hour session:</span>
+                    <span class="session-price" style="font-size: 1.25rem; font-weight: bold; color: #007bff;">$@Model.HourlyRate/hr</span>
                 </div>
+
+
             </div>
 
             <div class="tu-listinginfo_description">

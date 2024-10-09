@@ -2,105 +2,97 @@
 @{
     ViewData["Title"] = "MyLike";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 <partial name="_Notification" />
 <div class="container">
     <div class="row pt-4 pb-3">
-        <div class="col-6">
+        <div class="col-12">
             <h2 class="text-primary">
                 Liked Teachers
             </h2>
         </div>
     </div>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>
-                    #
-                </th>
-                <th>
-                    Profile
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Courses
-                </th>
 
-                <th>
-                    Link
-                </th>
-                <th>
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                var index = 0;
-            }
-            @foreach (var data in Model)
-            {
+    @if (!Model.Any())
+    {
+        <div class="card text-center my-5">
+            <div class="card-body">
+                <i class="bi bi-heart-fill" style="font-size: 3rem; color: #ff4757;"></i>
+                <h4 class="card-title mt-3">No Liked Teachers Yet</h4>
+                <p class="card-text">Start adding your favorite tutors by clicking the <strong>'Like'</strong> button on their profiles. They will appear here for quick access!</p>
+                <a href="https://edufy.education/tutor/list" class="btn btn-primary mt-2">
+                    <i class="bi bi-search"></i> Find Tutors
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        @(index + 1)
-                    </td>
-                    <td>
-                        <img src="/@data.Tutor.ApplicationUser.ProfileImageUrl" class="rounded-circle" style="max-width:24%; height:20px" />
-                    </td>
-                    <td>
-                        @data.Tutor.FullName
-                    </td>
-                    <td>
-                        @{
-                            var subjects = data.Tutor.TutorSubject.Select(subject => subject.Subject.Name);
-                            var concatenatedSubjects = string.Join(", ", subjects);
-                        }
-
-                        <p>@concatenatedSubjects</p>
-                    </td>
-
-                    <td>
-                        <a target="_blank" href="/tutor/profile/@data.Tutor.Id">Profile</a>
-                    </td>
-
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-
-                            <a onclick="deleteLike('@data.Tutor.Id')" class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i>Delete</a>
-                        </div>
-                    </td>
-                   
-                   
+                    <th>#</th>
+                    <th>Profile</th>
+                    <th>Name</th>
+                    <th>Courses</th>
+                    <th>Link</th>
+                    <th>Action</th>
                 </tr>
-                index++;
-            }
-          
-        </tbody>
-
-    </table>
-
+            </thead>
+            <tbody>
+                @{
+                    var index = 0;
+                }
+                @foreach (var data in Model)
+                {
+                    <tr>
+                        <td>@(++index)</td>
+                        <td>
+                            <img src="/@data.Tutor.ApplicationUser.ProfileImageUrl" class="rounded-circle" style="width: 50px; height: 50px;" />
+                        </td>
+                        <td>@data.Tutor.FullName</td>
+                        <td>
+                            @{
+                                var subjects = data.Tutor.TutorSubject.Select(subject => subject.Subject.Name);
+                                var concatenatedSubjects = string.Join(", ", subjects);
+                            }
+                            <p>@concatenatedSubjects</p>
+                        </td>
+                        <td>
+                            <a target="_blank" href="/tutor/profile/@data.Tutor.Id" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                        </td>
+                        <td>
+                            <button onclick="deleteLike('@data.Tutor.Id')" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>
 
 <div class="container">
     <form method="post" asp-action="AddTeacherToLike" asp-controller="Like">
         <div class="row">
-         
             <div class="col">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" style="background-color: #007bff; color: white;">Add teacher by ID</span>
-
-                    <input type="text" class="form-control" placeholder="You can like tutor also by adding their username" name="userName" />
-                    <button class="btn btn-primary" type="submit">Add</button>
-
+                <div class="input-group mb-5">
+                    <span class="input-group-text bg-primary text-white">
+                        <i class="bi bi-person-plus-fill"></i> Add Teacher by Username
+                    </span>
+                    <input type="text" class="form-control" placeholder="Enter tutor's username" name="userName" />
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-plus-circle"></i> Add
+                    </button>
                 </div>
             </div>
-           
         </div>
     </form>
 </div>
-@section Scripts{
 
+@section Scripts {
+    <!-- Any additional scripts -->
 }
