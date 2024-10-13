@@ -61,11 +61,12 @@ function getCitiesByCountryId(id) {
         success: function (response) {
          
             const dropdown = document.getElementById('ddlcity');
-            dropdown.innerHTML = '<option value="">Select a city</option>';
+            let options = '<option value="">Select a city</option>'; // Build the options string
             response.forEach(city => {
-                const option = `<option value="${city.id}">${city.name}</option>`;
-                dropdown.innerHTML += option;
+                options += `<option value="${city.id}">${city.name}</option>`;
             });
+            dropdown.innerHTML = options; // Update the innerHTML once
+
         },
         error: function (xhr, status, error) {
             console.error("Error uploading image: " + error);

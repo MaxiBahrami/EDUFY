@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.Development.json" />
     <Content Remove="Views\Home\SearchListing.cshtml" />
   </ItemGroup>
 
@@ -49,6 +48,15 @@
 
   <ItemGroup>
     <None Include="wwwroot\assets\chat\.DS_Store" />
+    <None Include="wwwroot\assets\header-assets\js\main.js" />
+    <None Include="wwwroot\assets\header-assets\scss\base\_base.scss" />
+    <None Include="wwwroot\assets\header-assets\scss\components\_breakpoints.scss" />
+    <None Include="wwwroot\assets\header-assets\scss\components\_header.scss" />
+    <None Include="wwwroot\assets\header-assets\scss\components\_login.scss" />
+    <None Include="wwwroot\assets\header-assets\scss\components\_search.scss" />
+    <None Include="wwwroot\assets\header-assets\scss\config\_variables.scss" />
+    <None Include="wwwroot\assets\header-assets\scss\layout\_layout.scss" />
+    <None Include="wwwroot\assets\header-assets\scss\styles.scss" />
   </ItemGroup>
 
 </Project>

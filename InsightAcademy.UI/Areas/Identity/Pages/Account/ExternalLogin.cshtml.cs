@@ -123,6 +123,12 @@ namespace InsightAcademy.UI.Areas.Identity.Pages.Account
             }
             else
             {
+                var externalLogin = await _userManager.GetLoginsAsync(user);
+                if (externalLogin.Count == 0)
+                {
+                    await _userManager.AddLoginAsync(user, info);
+                }
+
                 var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
                 if (result.Succeeded)
                 {
