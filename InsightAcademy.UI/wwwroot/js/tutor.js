@@ -1,5 +1,6 @@
 ﻿"use strict"
 function searchTutor() {
+    debugger
     let subject = $('#selectv8').val();
     let search = $('#search').val();
     localStorage.setItem('CategoryId', subject);
@@ -26,7 +27,6 @@ function addMoreText() {
     }
 }
 function filter(type) {
-  
     showLoader();
     var urlParams = new URLSearchParams(window.location.search);
     var subjectValue = urlParams.get('category');
@@ -43,7 +43,6 @@ function filter(type) {
     let minPrice = $('#tu-min-value').val();
     let maxPrice = $('#tu-max-value').val();
     let education = $('#selectv7').val();
-
 
     let service;
     let photo;

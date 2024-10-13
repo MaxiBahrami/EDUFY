@@ -14,8 +14,62 @@
         return !string.IsNullOrEmpty(profileImage) ? $"/{profileImage}" : "/images/man.png";
     }
 }
-
 <style>
+    .nav__user-menu {
+        position: relative;
+        display: inline-block;
+    }
+
+    .nav__avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .nav__dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 300px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        max-height: 500px;
+        overflow: auto;
+    }
+
+    .nav__user-menu:hover .nav__dropdown {
+        display: block;
+    }
+
+    .nav__dropdown ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .nav__dropdown ul li {
+            padding: 12px 16px;
+        }
+
+            .nav__dropdown ul li a {
+                text-decoration: none;
+                color: black;
+                display: block;
+            }
+
+                .nav__dropdown ul li a:hover {
+                    background-color: #f1f1f1;
+                }
+
+                
+
+
+</style>
+
+@* <style>
     /* Apply the font to the entire body */
     body {
         font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -66,9 +120,235 @@
         margin: 0;
         color: black;
     }
-</style>
+</style> *@
+<!--=============== REMIXICONS ===============-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
 
-<header class="tu-header">
+<!--=============== CSS ===============-->
+<link rel="stylesheet" href="/assets/header-assets/css/styles.css">
+<!--=============== FONT AWESOME ===============-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<header class="header" id="header">
+    <nav class="nav container">
+        <a href="#" class="nav__logo">EDUFY</a>
+
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a href="/" class="nav__link">Home</a>
+                </li>
+
+                <li class="nav__item">
+                    <a href="/tutor/list" class="nav__link">All Courses</a>
+                </li>
+               
+                <li class="nav__item">
+                    <a href="#" class="nav__link">Services</a>
+                </li>
+
+                <li class="nav__item">
+                    <a href="#" class="nav__link">Featured</a>
+                </li>
+
+                <li class="nav__item">
+                    <a href="#" class="nav__link">Contact Us</a>
+                </li>
+                <li class="nav__item for-mobile">
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                    </form>
+                </li>
+            </ul>
+
+            <!-- Close button -->
+            <h5 class="mobile-user-title" id="offcanvasNavbarLabel">
+                <a href="">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5526/5526473.png" alt="">
+                Max
+                </a>
+            </h5>
+            <div class="nav__close" id="nav-close">
+                <i class="ri-close-line"></i>
+            </div>
+        </div>
+
+        <div class="nav__actions">
+            <!-- Search button -->
+            <i class="ri-search-line nav__search" id="search-btn"></i>
+
+            <!-- Login button -->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="nav__user-menu">
+                    <!-- Display avatar -->
+                    <img src="@await GetUserProfileImage(User.FindFirstValue(ClaimTypes.NameIdentifier))" class="nav__avatar" alt="User Avatar" />
+
+                    <!-- Dropdown menu -->
+                    <div class="nav__dropdown">
+                       @if (User.IsInRole(Roles.Teacher))
+                        {
+                            <ul>
+                                <li>
+                                    <a href="/Tutor/PersonalDetails"><i class="icon icon-user"></i>Personal Details</a>
+                                </li>
+                                <li>
+                                    <a href="/Tutor/ContactDetail"><i class="icon icon-phone"></i>Contact</a>
+                                </li>
+                                <li>
+                                    <a href="/Tutor/Availability"><i class="icon icon-calendar"></i>Availability</a>
+                                </li>
+                                <li>
+                                    <a href="/Tutor/Education"><i class="icon icon-book"></i>Education</a>
+                                </li>
+                                <li>
+                                    <a href="/Tutor/Subjects"><i class="icon icon-book-open"></i>Subject</a>
+                                </li>
+                                <li>
+                                    <a href="/Tutor/Media"><i class="icon icon-image"></i>Media</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="WishList" asp-action="MyWishList">
+                                        <i class="icon icon-heart"></i>
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  asp-controller="Tutor" asp-action="UpcomingBookings">
+                                        <i class="icon icon-clock"></i>
+                                        Upcoming Bookings
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  asp-controller="Like" asp-action="LikeList">
+                                        <i class="icon icon-thumbs-up"></i>
+                                        My Likes
+                                    </a>
+                                </li>
+                                <li>
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        }
+                        else if (User.IsInRole(Roles.Student))
+                        {
+                            <ul>
+                                <li>
+                                    <a href="/Student/Profile"><i class="icon icon-user"></i>Profile</a>
+                                </li>
+                                <li>
+                                    <a  asp-controller="WishList" asp-action="MyWishList">
+                                        <i class="icon icon-heart"></i>
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  asp-controller="Like" asp-action="LikeList">
+                                        <i class="icon icon-thumbs-up"></i>
+                                        My Likes
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  asp-controller="Student" asp-action="GetMyBookings">
+                                        <i class="icon icon-clock"></i>
+                                        My Bookings
+                                    </a>
+                                </li>
+                                <li>
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul>
+                                <li>
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <i class="ri-user-line nav__login" id="login-btn" onclick="window.location.href='/identity/account/login'"></i>
+            }
+
+            <!-- Toggle button -->
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="ri-menu-line"></i>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="search" id="search">
+    <form  class="search__form">
+        <i class="ri-search-line search__icon"></i>
+        <input type="text" placeholder="What are you looking for?" id="search123" class="search__input" onblur="searchTutorHeader()">
+    </form>
+
+    <i class="ri-close-line search__close" id="search-close"></i>
+</div>
+@* <div class="login" id="login" >
+    <form action="" class="login__form">
+        <!-- Close button inside the form -->
+        <i class="ri-close-line login__close" id="login-close"></i>
+
+        <h2 class="login__title">Log In</h2>
+
+        <div class="login__group">
+            <div>
+                <label for="email" class="login__label">Email</label>
+                <input type="email" placeholder="Enter your email" id="email" class="login__input">
+            </div>
+
+            <div>
+                <label for="password" class="login__label">Password</label>
+                <div class="login__password">
+                    <input type="password" placeholder="Enter your password" id="password" class="login__input">
+                    <i class="fas fa-eye login__eye" id="togglePassword"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="login__button">Log In</button>
+
+            <div>
+                <p class="login__signup">
+                    You do not have an account? <a href="#">Sign up</a>
+                </p>
+
+                <a href="#" class="login__forgot">
+                    You forgot your password?
+                </a>
+
+                <!-- Separator -->
+                <div class="login__separator">
+                    <span>or</span>
+                </div>
+
+                <!-- Google Login Button -->
+                <button type="button" class="login__google-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48" style="margin-right: 5px;">
+                        <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                        <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                        <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                        <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                    </svg>
+                    Continue with Google
+                </button>
+
+
+            </div>
+    </form>
+</div> *@
+@* <header class="tu-header">
     <audio id="messageSound" src="/assets/audio/message.mp3" preload="auto"></audio>
     <nav class="navbar navbar-expand-xl tu-navbar">
         <div class="container-fluid">
@@ -221,4 +501,13 @@
             </ul>
         </div>
     </nav>
-</header>
+</header> *@
+<script src="/assets/header-assets/js/main.js"></script>
+<script>
+    function searchTutorHeader() {
+     
+        let search = $('#search123').val();
+       
+        window.location.href = '/tutor/list?Subject=' + search
+    }
+</script>
