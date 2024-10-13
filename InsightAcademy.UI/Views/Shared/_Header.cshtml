@@ -164,7 +164,7 @@
             <!-- Close button -->
             <h5 class="mobile-user-title" id="offcanvasNavbarLabel">
                 <a href="">
-                    <img src="https://cdn-icons-png.flaticon.com/512/5526/5526473.png" alt="">
+                    <img src="@await GetUserProfileImage(User.FindFirstValue(ClaimTypes.NameIdentifier))" alt="">
                 Max
                 </a>
             </h5>
