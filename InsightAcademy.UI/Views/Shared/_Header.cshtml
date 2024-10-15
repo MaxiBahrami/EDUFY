@@ -183,8 +183,10 @@
         <div class="nav__actions">
             <!-- Search button -->
             <i class="ri-search-line nav__search" id="search-btn"></i>
-            <i class="ri-mail-line nav__search" id="inbox-btn" onclick="window.location.href='/chat/inbox'"></i>
-
+            @if (User.Identity.IsAuthenticated)
+            {
+                <i class="ri-mail-line nav__search" id="inbox-btn" onclick="window.location.href='/chat/inbox'"></i>
+            }
             <!-- Login button -->
             @if (User.Identity.IsAuthenticated)
             {
