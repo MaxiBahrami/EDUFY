@@ -52,6 +52,7 @@ function sendMessage() {
 }
 
 function openChatPopup(id, image, name) {
+    alert('ok')
     $('#description').val('');
     $('#description').val('Hi ' + name + "!");
 
