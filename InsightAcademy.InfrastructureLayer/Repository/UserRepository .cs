@@ -75,6 +75,7 @@ namespace InsightAcademy.InfrastructureLayer.Implementation
                 userObj.StreetAdress = user.StreetAdress;
                 userObj.City = user.City;
                 userObj.Country = user.Country;
+                userObj.PhoneNumber = user.PhoneNumber;
                 if (user.UserImage != null)
                 {
                     userObj.ProfileImageUrl = user.ProfileImageUrl;
@@ -144,6 +145,12 @@ namespace InsightAcademy.InfrastructureLayer.Implementation
 
             _context.Tutor.Update(tutor);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<string> GetLoginUserName(string userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(z => z.Id == userId);
+            return user?.FullName;
         }
     }
 }

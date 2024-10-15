@@ -17,6 +17,8 @@ namespace InsightAcademy.ApplicationLayer.Repository
 
         Task<string> GetTutorProfileImage(string userId);
 
+        Task<string> GetLoginUserName(string userId);
+
         Task<bool> UploadProfileImage(string userId, string imageUrl);
 
         Task<ApplicationUser> GetMyProfile(string userId);

@@ -13,6 +13,11 @@
         var profileImage = await _user.GetTutorProfileImage(userId);
         return !string.IsNullOrEmpty(profileImage) ? $"/{profileImage}" : "/images/man.png";
     }
+    public async Task<string> GetLoginUserName(string userId)
+    {
+        var name = await _user.GetLoginUserName(userId);
+        return name;
+    }
 }
 <style>
     .nav__user-menu {
@@ -63,9 +68,6 @@
                 .nav__dropdown ul li a:hover {
                     background-color: #f1f1f1;
                 }
-
-                
-
 
 </style>
 
@@ -129,7 +131,7 @@
 <!--=============== FONT AWESOME ===============-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<header class="header" id="header">
+<header class="header " id="header">
     <nav class="nav container">
         <a href="#" class="nav__logo">EDUFY</a>
 
@@ -142,32 +144,37 @@
                 <li class="nav__item">
                     <a href="/tutor/list" class="nav__link">All Courses</a>
                 </li>
-               
-                <li class="nav__item">
-                    <a href="#" class="nav__link">Services</a>
-                </li>
 
-                <li class="nav__item">
-                    <a href="#" class="nav__link">Featured</a>
-                </li>
-
-                <li class="nav__item">
-                    <a href="#" class="nav__link">Contact Us</a>
-                </li>
-                <li class="nav__item for-mobile">
+                @* <li class="nav__item for-mobile">
                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                     </form>
-                </li>
+                </li> *@
             </ul>
 
             <!-- Close button -->
-            <h5 class="mobile-user-title" id="offcanvasNavbarLabel">
-                <a href="">
-                    <img src="@await GetUserProfileImage(User.FindFirstValue(ClaimTypes.NameIdentifier))" alt="">
-                Max
-                </a>
-            </h5>
+         @*    @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole(Roles.Student))
+                {
+                    <h5 class="mobile-user-title" id="offcanvasNavbarLabel">
+                        <a href="/Student/Profile">
+                            <img src="@await GetUserProfileImage(User.FindFirstValue(ClaimTypes.NameIdentifier))" alt="">
+                            @await GetLoginUserName(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        </a>
+                    </h5>
+                }
+                else
+                {
+                    <h5 class="mobile-user-title" id="offcanvasNavbarLabel">
+                        <a href="/Tutor/PersonalDetails">
+                            <img src="@await GetUserProfileImage(User.FindFirstValue(ClaimTypes.NameIdentifier))" alt="">
+                            @await GetLoginUserName(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        </a>
+                    </h5>
+                }
+
+            } *@
             <div class="nav__close" id="nav-close">
                 <i class="ri-close-line"></i>
             </div>
@@ -176,6 +183,7 @@
         <div class="nav__actions">
             <!-- Search button -->
             <i class="ri-search-line nav__search" id="search-btn"></i>
+            <i class="ri-mail-line nav__search" id="inbox-btn" onclick="window.location.href='/chat/inbox'"></i>
 
             <!-- Login button -->
             @if (User.Identity.IsAuthenticated)
@@ -186,9 +194,18 @@
 
                     <!-- Dropdown menu -->
                     <div class="nav__dropdown">
-                       @if (User.IsInRole(Roles.Teacher))
+                        <ul>
+                        <li class="user-prf">
+
+                                <a href="/Tutor/PersonalDetails">
+                                    <img src="@await GetUserProfileImage(User.FindFirstValue(ClaimTypes.NameIdentifier))" alt="">
+                                    @await GetLoginUserName(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                </a>
+                        </li>
+                        @if (User.IsInRole(Roles.Teacher))
                         {
-                            <ul>
+                           
+                                
                                 <li>
                                     <a href="/Tutor/PersonalDetails"><i class="icon icon-user"></i>Personal Details</a>
                                 </li>
@@ -214,44 +231,47 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a  asp-controller="Tutor" asp-action="UpcomingBookings">
+                                    <a asp-controller="Tutor" asp-action="UpcomingBookings">
                                         <i class="icon icon-clock"></i>
                                         Upcoming Bookings
                                     </a>
                                 </li>
                                 <li>
-                                    <a  asp-controller="Like" asp-action="LikeList">
+                                    <a asp-controller="Like" asp-action="LikeList">
                                         <i class="icon icon-thumbs-up"></i>
                                         My Likes
                                     </a>
                                 </li>
-                                <li>
-                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                                    </form>
-                                </li>
-                            </ul>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                        </form>
+                                    </li>
+                                }
+                            
                         }
                         else if (User.IsInRole(Roles.Student))
                         {
-                            <ul>
+                            
                                 <li>
                                     <a href="/Student/Profile"><i class="icon icon-user"></i>Profile</a>
                                 </li>
                                 <li>
-                                    <a  asp-controller="WishList" asp-action="MyWishList">
+                                    <a asp-controller="WishList" asp-action="MyWishList">
                                         <i class="icon icon-heart"></i>
                                         Wishlist
                                     </a>
                                 </li>
                                 <li>
-                                    <a  asp-controller="Like" asp-action="LikeList">
+                                    <a asp-controller="Like" asp-action="LikeList">
                                         <i class="icon icon-thumbs-up"></i>
                                         My Likes
                                     </a>
                                 </li>
                                 <li>
-                                    <a  asp-controller="Student" asp-action="GetMyBookings">
+                                    <a asp-controller="Student" asp-action="GetMyBookings">
                                         <i class="icon icon-clock"></i>
                                         My Bookings
                                     </a>
@@ -261,18 +281,19 @@
                                         <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                                     </form>
                                 </li>
-                            </ul>
+                            
                         }
                         else
                         {
-                            <ul>
+                         
                                 <li>
                                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                                         <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                                     </form>
                                 </li>
-                            </ul>
+                           
                         }
+                            </ul>
                     </div>
                 </div>
             }
@@ -289,7 +310,7 @@
     </nav>
 </header>
 <div class="search" id="search">
-    <form  class="search__form">
+    <form class="search__form">
         <i class="ri-search-line search__icon"></i>
         <input type="text" placeholder="What are you looking for?" id="search123" class="search__input" onblur="searchTutorHeader()">
     </form>
@@ -505,9 +526,9 @@
 <script src="/assets/header-assets/js/main.js"></script>
 <script>
     function searchTutorHeader() {
-     
+
         let search = $('#search123').val();
-       
+
         window.location.href = '/tutor/list?Subject=' + search
     }
 </script>
